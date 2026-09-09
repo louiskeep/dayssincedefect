@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Character Ladder Review</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Fredoka:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#3a2b45;--card:#fffdf6;--stroke:#3a2b45;--shadow:rgba(58,43,69,.22);
+    --purple:#9b6cff;--green:#37c06a;--disp:"Fredoka",system-ui,sans-serif;--head:"Baloo 2",system-ui,sans-serif;}
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:var(--head);color:var(--ink);padding:22px 16px 40px;
+    background:linear-gradient(160deg,#bfe6ff,#e8f4ff 34%,#ffe6c2);min-height:100vh;}
+  h1{font-family:var(--disp);text-align:center;margin:0 0 4px;font-size:1.9rem;}
+  .sub{text-align:center;color:#5c4b57;font-weight:700;margin:0 0 22px;}
+  .grid{max-width:1240px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:16px;}
+  .card{background:var(--card);border:3px solid var(--stroke);border-radius:18px;box-shadow:0 5px 0 var(--shadow);
+    padding:12px;text-align:center;display:flex;flex-direction:column;}
+  .card.pending{opacity:.55;}
+  .art{background:radial-gradient(circle at 50% 42%,#fff6df,#efe1c2);border:2px solid #e2d4bd;border-radius:12px;
+    height:210px;display:flex;align-items:flex-end;justify-content:center;overflow:hidden;margin-bottom:9px;}
+  .art img{max-height:100%;max-width:100%;object-fit:contain;image-rendering:pixelated;}
+  .art .todo{color:#b9a684;font-weight:800;font-size:.8rem;align-self:center;text-align:center;line-height:1.3;}
+  .lv{display:inline-block;background:var(--purple);color:#fff;font-family:var(--disp);font-weight:700;
+    border:2px solid var(--stroke);border-radius:999px;padding:2px 12px;font-size:.82rem;box-shadow:0 2px 0 var(--shadow);margin-bottom:5px;}
+  .name{font-family:var(--disp);font-size:1.02rem;line-height:1.1;margin:2px 0;}
+  .stat{color:var(--green);font-weight:800;font-size:.86rem;}
+  .flavor{color:#7c6a53;font-weight:600;font-style:italic;font-size:.78rem;margin-top:5px;line-height:1.25;}
+  .newtag{color:#e0653a;font-weight:800;font-size:.7rem;letter-spacing:.05em;}
+</style>
+</head>
+<body>
+  <h1>Character Ladder — Office Technomancer</h1>
+  <p class="sub">Reviewing each level's sprite before generating the next. Same character, cumulative sci-fi + magic gear.</p>
+  <div class="grid" id="grid"></div>
+<script>
+const LADDER = [
+  ["The Coder","+0 Potential","allegedly."],
+  ["Ergonomic exo-braces","+3 Posture","he stands unnervingly straight now."],
+  ["Debug Duck (companion)","+6 Insight","a real, live duck. sits between the fridge and vending machine."],
+  ["Watch","+4 Punctuality","technically he's never late, he's just early to the next thing."],
+  ["Magic blue-light glasses","+8 Alertness","enchanted lenses. the 2am deploy only feels like 1am."],
+  ["Earbuds","+9 Deep Work","the outside world ceases to exist."],
+  ["Cold-brew IV (backpack)","+12 Uptime","a caffeine drip rig on his back. forever."],
+  ["Spellbook (held)","+15 Compute","a grimoire of runbooks. he actually reads it."],
+  ["Rune-etched chrome arm","+30 Grip","the handshake is now load-bearing."],
+  ["Triple monitor array","+11 Multitasking","three screens fanned out behind him."],
+  ["Wizard cloak","+13 Arcana","business on the front, sorcery all the way down."],
+  ["Duck power suit","+25 Firepower","the debug duck suits up. absolute unit."],
+  ["Full-Stack Rig","+∞ Scope","the guy, stationed in a giant mech. ships to prod with a snap."],
+];
+const grid=document.getElementById("grid");
+LADDER.forEach((row,i)=>{
+  const [name,stat,flavor]=row;
+  const file=`assets/tech-${String(i).padStart(2,"0")}.png?t=${Date.now()}`;
+  const card=document.createElement("div");card.className="card";
+  card.innerHTML=`
+    <div class="art"><img src="${file}" alt="${name}"
+      onerror="this.style.display='none';this.parentNode.innerHTML='<div class=\\'todo\\'>not generated<br>yet</div>';this.closest('.card').classList.add('pending');"></div>
+    <span class="lv">Lv ${i}</span>
+    <div class="name">${name}</div>
+    <div class="stat">${stat}</div>
+    <div class="flavor">"${flavor}"</div>`;
+  grid.appendChild(card);
+});
+</script>
+</body>
+</html>

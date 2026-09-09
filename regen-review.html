@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bobblehead Regen — Review</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Fredoka:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  body{margin:0;font-family:"Baloo 2",system-ui,sans-serif;color:#3a2b45;
+    background:linear-gradient(160deg,#bfe6ff,#e8f4ff 34%,#ffe6c2);min-height:100vh;padding:22px;}
+  .wrap{max-width:1200px;margin:0 auto;}
+  h1{font-family:"Fredoka";margin:0 0 4px;}
+  p{color:#7c6a53;font-weight:700;margin:0 0 18px;}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:16px;}
+  .card{background:#fffdf6;border:3px solid #3a2b45;border-radius:18px;box-shadow:0 6px 0 rgba(58,43,69,.22);
+    padding:10px;text-align:center;}
+  .card img{width:100%;height:auto;border-radius:12px;display:block;background:#fbf2df;border:2px solid #e4d9c4;}
+  .card .n{font-weight:800;font-size:.95em;margin-top:7px;line-height:1.05;}
+  .card .k{color:#8a7d93;font-weight:700;font-size:.72em;}
+  .miss{opacity:.4;}
+  .miss img{filter:grayscale(1);}
+  .batch{margin:22px 0 6px;font-family:"Fredoka";font-size:1.1em;color:#6a45c0;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>🎎 Bobblehead Regen — Review</h1>
+  <p>New consistent style: black disc base + brass nameplate, diverse cast. Reviewing in batches of 3. Refresh after each batch.</p>
+  <div class="grid" id="g"></div>
+</div>
+<script>
+  const B=["The Boss","The Intern","Sales Shark","The IT Guy","The HR Rep","The CEO",
+   "The Accountant","The Creative","Coffee Fiend","Remote Worker","Scrum Master",
+   "The Overachiever","The Slacker","The Consultant","Security Guard","Receptionist",
+   "The Data Nerd","DevOps Firefighter","Product Manager","QA Tester",
+   "Marketing Guru","Facilities Legend","Founder-Bro","Office Veteran"];
+  const g=document.getElementById("g");
+  const v=Date.now();
+  B.forEach((nm,idx)=>{const i=idx+1,n=String(i).padStart(2,"0");
+    const c=document.createElement("div");c.className="card";
+    const img=new Image();
+    img.onerror=()=>{c.classList.add("miss");};
+    img.src=`assets/regen/bob-${n}.png?v=${v}`;
+    c.innerHTML=`<img src="assets/regen/bob-${n}.png?v=${v}" alt="${nm}"><div class="n">${nm}</div><div class="k">#${i} / 24</div>`;
+    g.appendChild(c);});
+</script>
+</body>
+</html>

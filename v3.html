@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Days Since Last Screwup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="v3.css">
+</head>
+<body>
+<div class="wrap">
+
+  <!-- Board -->
+  <div class="board">
+    <div class="panel hero">
+      <div class="count" id="count"><small>Days since last screwup</small>0d 0h 0m 0s</div>
+      <div class="subs">
+        <span>best: <b id="best">0d</b></span>
+        <span>screwups: <b id="resets">0</b></span>
+        <span>streak bonus: <b id="streakMult" class="blue">×1.0</b></span>
+        <span id="prestigeWrap" hidden>seasons won: <b id="prestige">0</b></span>
+      </div>
+    </div>
+    <div class="panel side">
+      <div class="row"><div><div class="lbl">Level</div><div class="lv" id="level">1</div></div>
+        <div style="flex:1"><div class="lbl" id="lvNote">38 pts to level 2</div><div class="bar"><i id="lvBar"></i></div></div></div>
+      <div class="row"><div><div class="lbl">Total bits</div><div class="bits" id="bits">0</div></div>
+        <div style="text-align:right"><div class="lbl">Per day</div><div class="rate" id="rate">2 / day</div><div class="rate-note" id="multNote">×2 per crewmate</div></div></div>
+    </div>
+  </div>
+
+  <!-- Boss banner -->
+  <div class="boss-banner" id="bossBanner">
+    <div class="drg">🐉</div>
+    <div class="disp" style="font-size:1.4em">The Defect Dragon has awoken!</div>
+    <div style="opacity:.85;margin:4px 0 10px">Your crew of 20 is ready. Finish the run.</div>
+    <button class="btn amber" id="fightBtn">⚔️ Fight the Defect Dragon</button>
+  </div>
+
+  <!-- Toolbar -->
+  <div class="toolbar">
+    <button class="btn green" id="logSprint">＋ Log sprint</button>
+    <button class="btn purple" id="spin">🎁 Spin chest · <span class="cost" id="spinCost">8</span></button>
+    <button class="btn amber" id="circus">🎪 Circus · <span id="tix">0</span>🎟️</button>
+    <button class="btn red" id="defect">⚠️ Report a defect</button>
+    <button class="btn ghost" id="gear" style="margin-left:auto">⚙️</button>
+  </div>
+
+  <!-- Crew -->
+  <div class="rowlbl">The crew <small id="crewCount">1 / 20 hired</small></div>
+  <div class="crew" id="crew"></div>
+
+  <!-- Collection -->
+  <div class="panel collect">
+    <div class="meter">
+      <div class="lbl">Collection <span id="colCount">0 / 60</span></div>
+      <div class="bar"><i id="colBar" style="background:linear-gradient(90deg,#ffca4a,#ff9f2e)"></i></div>
+    </div>
+    <div class="trophies" id="trophies"></div>
+  </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+<div class="modal" id="modal"><div class="box" id="modalBox"></div></div>
+<div class="fight" id="fight"><div class="arena" id="fightArena"></div></div>
+
+<script src="v3.js"></script>
+</body>
+</html>

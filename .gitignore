@@ -1,0 +1,12 @@
+# local asset backups (regenerated snapshots, not part of the game)
+assets-backup-*/
+
+# dev-only placement/preview helpers
+bg-preview/
+
+# tooling / OS cruft
+.playwright-mcp/
+.DS_Store
+*.pyc
+__pycache__/
+node_modules/

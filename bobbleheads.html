@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Office Bobbleheads (24)</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Fredoka:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  body{margin:0;font-family:"Baloo 2",system-ui,sans-serif;color:#3a2b45;
+    background:linear-gradient(160deg,#bfe6ff,#e8f4ff 34%,#ffe6c2);min-height:100vh;padding:22px;}
+  .wrap{max-width:1200px;margin:0 auto;}
+  h1{font-family:"Fredoka";margin:0 0 4px;}
+  p{color:#7c6a53;font-weight:700;margin:0 0 18px;}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px;}
+  .card{background:#fffdf6;border:3px solid #3a2b45;border-radius:16px;box-shadow:0 5px 0 rgba(58,43,69,.22);
+    padding:8px;text-align:center;}
+  .card img{width:100%;height:auto;border-radius:10px;display:block;background:#fbf2df;border:2px solid #e4d9c4;}
+  .card .n{font-weight:800;font-size:.82em;margin-top:5px;line-height:1.05;}
+  .card .k{color:#7c6a53;font-weight:700;font-size:.7em;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>🎎 Office Bobbleheads</h1>
+  <p>24 to collect from the box. Refresh if any are still loading.</p>
+  <div class="grid" id="g"></div>
+</div>
+<script>
+  const B=[["Boss",1],["Intern",2],["Sales Shark",3],["IT Guy",4],["HR Rep",5],["CEO",6],
+   ["Accountant",7],["Creative",8],["Coffee Fiend",9],["Remote Worker",10],["Office Gossip",11],
+   ["Overachiever",12],["Slacker",13],["Consultant",14],["Security Guard",15],["Receptionist",16],
+   ["Data Nerd",17],["DevOps Firefighter",18],["Product Manager",19],["QA Tester",20],
+   ["Marketing Guru",21],["Facilities Legend",22],["Founder-Bro",23],["Office Veteran",24]];
+  const g=document.getElementById("g");
+  B.forEach(([nm,i])=>{const n=String(i).padStart(2,"0");
+    const c=document.createElement("div");c.className="card";
+    c.innerHTML=`<img src="assets/bob-${n}.png?v=${Date.now()}" alt="${nm}"><div class="n">The ${nm}</div><div class="k">#${i}</div>`;
+    g.appendChild(c);});
+</script>
+</body>
+</html>

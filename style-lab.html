@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Style Lab — Paper Mario vs 16-bit</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=VT323&display=swap" rel="stylesheet">
+<style>
+  :root { --ink:#3a2f28; --cream:#fbf3e4; --card:#fffaf0; --accent:#e8743b; }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family:"Baloo 2",system-ui,sans-serif; color:var(--ink);
+    background: radial-gradient(120% 80% at 50% -10%, #fbf3e4, #f4e7cf); padding:22px; }
+  h1 { margin:0 0 4px; }
+  .sub { color:#7c6a5b; margin:0 0 18px; }
+  .controls { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:18px; align-items:center; }
+  .controls .grp { display:flex; gap:6px; background:var(--card); padding:6px; border-radius:12px; box-shadow:0 3px 8px rgba(0,0,0,.12); }
+  .controls label { font-size:.72rem; font-weight:800; color:#7c6a5b; align-self:center; padding:0 4px; text-transform:uppercase; letter-spacing:.05em; }
+  button { font-family:inherit; font-weight:700; border:none; cursor:pointer; padding:8px 12px; border-radius:9px;
+    background:#f4e7cf; color:var(--ink); }
+  button.on { background:var(--accent); color:#fff; }
+  .panels { display:grid; grid-template-columns:1fr 1fr; gap:22px; }
+  @media (max-width:760px){ .panels{ grid-template-columns:1fr; } }
+  .panel { background:var(--card); border-radius:18px; padding:16px; box-shadow:0 8px 22px rgba(0,0,0,.14); }
+  .panel h2 { margin:0 0 2px; }
+  .panel .note { color:#7c6a5b; font-size:.82rem; margin:0 0 12px; min-height:2.6em; }
+  .stage { position:relative; width:100%; aspect-ratio:4/3; border-radius:12px; overflow:hidden;
+    display:flex; align-items:flex-end; justify-content:center; }
+  .stage canvas { image-rendering:pixelated; position:absolute; inset:0; width:100%; height:100%; }
+  .paper-char { position:relative; z-index:2; margin-bottom:6%; }
+  .paper-char svg { width:150px; height:auto;
+    filter: drop-shadow(5px 8px 2px rgba(0,0,0,.30));
+    transform-origin: 50% 100%; animation: wobble 3.4s ease-in-out infinite; }
+  .pixel-char { position:relative; z-index:2; margin-bottom:5%; image-rendering:pixelated;
+    width:150px; height:auto; filter: drop-shadow(4px 6px 0 rgba(0,0,0,.28)); }
+  @keyframes wobble { 0%,100%{ transform: rotate(-1.6deg); } 50%{ transform: rotate(1.6deg); } }
+  .bgstrip { display:flex; gap:8px; margin-top:10px; }
+  .bgstrip button { padding:6px 10px; }
+  .verdict { margin-top:20px; background:var(--card); border-radius:14px; padding:14px 18px;
+    box-shadow:0 4px 10px rgba(0,0,0,.1); font-size:.9rem; }
+</style>
+</head>
+<body>
+  <h1>Style Lab</h1>
+  <p class="sub">Same character, same backgrounds. Left is the Paper Mario direction (keeps the rig + all animation). Right is true 16-bit pixel. Toggle outfit / hat / activity to check both stay dress-up-able. Pick one and I convert all 9.</p>
+
+  <div class="controls">
+    <div class="grp"><label>Background</label>
+      <button data-bg="0" class="on">Space</button>
+      <button data-bg="1">Meadow</button>
+      <button data-bg="2">Volcano</button>
+      <button data-bg="3">Office</button>
+    </div>
+    <div class="grp"><label>Dress-up</label>
+      <button id="tOutfit">Lab coat</button>
+      <button id="tHat">Party hat</button>
+      <button id="tAct">Coffee</button>
+    </div>
+  </div>
+
+  <div class="panels">
+    <div class="panel">
+      <h2>Paper Mario</h2>
+      <p class="note">Flat paper cut-out with an ink outline, a standee drop-shadow, and a gentle paper wobble. This is a small step from what's already live, so every outfit, activity, and idle behaviour keeps working.</p>
+      <div class="stage"><canvas id="paperBg" width="96" height="72"></canvas>
+        <div class="paper-char" id="paperChar"></div></div>
+    </div>
+    <div class="panel">
+      <h2>16-bit Pixel</h2>
+      <p class="note">Hand-authored sprite on a fixed pixel grid. Authentic retro look. A full rebuild of the art: every character, hat, outfit, and activity frame is drawn as pixels, but the same compose-by-anchor method still applies.</p>
+      <div class="stage"><canvas id="pixelBg" width="96" height="72"></canvas>
+        <canvas class="pixel-char" id="pixelChar" width="22" height="24"></canvas></div>
+    </div>
+  </div>
+
+  <div class="verdict" id="verdict">Tip: the two backgrounds are the same pixel scene in both panels, so you're comparing the <b>character</b> styles fairly.</div>
+
+  <script src="art.js"></script>
+  <script>
+  /* ===================== shared state ===================== */
+  const opt = { bg:0, outfit:false, hat:false, act:false };
+
+  /* ===================== backgrounds (pixel scenes) =====================
+     Drawn at 96x72 then scaled up nearest-neighbour. Shared by both panels. */
+  function px(ctx,x,y,w,h,c){ ctx.fillStyle=c; ctx.fillRect(x,y,w,h); }
+  function stars(ctx,seed){ let s=seed; const rnd=()=> (s=(s*9301+49297)%233280)/233280;
+    for(let i=0;i<48;i++){ const x=Math.floor(rnd()*96), y=Math.floor(rnd()*54);
+      px(ctx,x,y,1,1, rnd()>.5?'#ffffff':'#9ad7ff'); } }
+  const BG = [
+    // space
+    ctx=>{ px(ctx,0,0,96,72,'#0b1026'); px(ctx,0,0,96,36,'#141a3a'); stars(ctx,7);
+      // ringed planet
+      px(ctx,62,12,18,18,'#c98adf'); px(ctx,62,16,18,3,'#a86fc0');
+      px(ctx,56,19,30,2,'#e7c46b'); px(ctx,56,21,30,1,'#b8934a');
+      // small moon
+      px(ctx,16,10,8,8,'#dfe4ea'); px(ctx,18,12,3,3,'#c2c9d2');
+      px(ctx,0,58,96,14,'#241b3a'); },
+    // meadow
+    ctx=>{ px(ctx,0,0,96,72,'#bfe8ff'); px(ctx,0,0,96,24,'#a9dcff');
+      px(ctx,10,8,10,10,'#ffe27a'); // sun
+      px(ctx,0,44,96,28,'#77c25a'); px(ctx,0,44,96,4,'#8ed16b');
+      // hills
+      for(let i=0;i<96;i++){ const h=Math.round(6*Math.sin(i/9)+7); px(ctx,i,44-h,1,h,'#8ed16b'); }
+      // flowers
+      for(const fx of [14,30,52,70,84]){ px(ctx,fx,58,2,2,'#ffffff'); px(ctx,fx,56,2,2,'#f4c430'); px(ctx,fx,60,2,4,'#3f8f43'); } },
+    // volcano
+    ctx=>{ px(ctx,0,0,96,72,'#4a1626'); px(ctx,0,0,96,30,'#6b2233'); px(ctx,0,20,96,10,'#8a2f36');
+      // mountain
+      for(let i=0;i<96;i++){ const d=Math.abs(i-48); const top=28+d*0.5; if(top<70) px(ctx,i,top,1,72-top,'#2b1a1f'); }
+      px(ctx,44,26,8,4,'#f0a641'); px(ctx,46,24,4,4,'#f4e04a'); // crater glow
+      // lava streaks
+      px(ctx,47,30,2,20,'#f0641e'); px(ctx,50,34,2,16,'#f4a11e'); px(ctx,44,36,2,14,'#f0641e');
+      for(let i=0;i<10;i++){ px(ctx,10+i*8,6+(i%3)*4,1,1,'#f4a11e'); } },
+    // office
+    ctx=>{ px(ctx,0,0,96,72,'#e7d6b6'); px(ctx,0,0,96,40,'#efe3c8');
+      px(ctx,10,10,30,22,'#bfe3ff'); px(ctx,10,10,30,22,'#bfe3ff'); // window
+      px(ctx,10,10,30,3,'#8a6f45'); px(ctx,24,10,2,22,'#8a6f45'); px(ctx,10,22,30,2,'#8a6f45'); px(ctx,10,10,3,22,'#8a6f45'); px(ctx,37,10,3,22,'#8a6f45');
+      px(ctx,0,52,96,20,'#8a5f38'); px(ctx,0,52,96,3,'#a2723f'); // desk
+      px(ctx,64,36,16,12,'#2c3e50'); px(ctx,66,38,12,8,'#7fd0e8'); // monitor
+      px(ctx,50,42,6,6,'#3f8f43'); px(ctx,51,40,4,4,'#57b25a'); px(ctx,52,48,2,4,'#8a5f38'); }, // plant
+  ];
+  function paintBG(ctx){ ctx.clearRect(0,0,96,72); BG[opt.bg](ctx); }
+
+  /* ===================== 16-bit pixel character ===================== */
+  const PAL = { '.':null,'K':'#241a24','S':'#f2c9a0','s':'#d89b6c','n':'#6b4a2a',
+    'b':'#3f78c4','B':'#2b5590','W':'#f6f4ef','w':'#c9d2dc','e':'#242038','y':'#f4c430',
+    'o':'#e8743b','r':'#d8564b','g':'#3f8f5a','m':'#9aa6b2' };
+  const strip = s => s.split('\n').filter(r=>r.length);
+  // base dev, 20 wide
+  const DEV = strip(`
+......KKKKKK........
+.....KnnnnnnK.......
+.....nSSSSSSn.......
+.....nSSSSSSn.......
+.....SSSSSSSS.......
+.....SeeSSeeS.......
+.....SeeSSeeS.......
+.....SSSSSSSS.......
+......SSssSS........
+......SSSSSS........
+.....bbbbbbbb.......
+....bbbbbbbbbb......
+...bBbbbbbbbbBb.....
+...bBbbbbbbbbBb.....
+...bBbbbbbbbbBb.....
+...SSbbbbbbbbSS.....
+....bbbbbbbbbb......
+....bbbb..bbbb......
+....bbbb..bbbb......
+....BBB....BBB......
+....KKK....KKK......`);
+  const BLINK = { 5:'.....SssSSssS.......', 6:'.....SssSSssS.......' };
+  const LABCOAT = strip(`
+....................
+....................
+....................
+....................
+....................
+....................
+....................
+....................
+....................
+....................
+....WWWWWWWWWW......
+...WWWWWWWWWWWW.....
+...WWWWwWWwWWWW.....
+...WWWWwWWwWWWW.....
+...WWWWwWWwWWWW.....
+...SSWWWWWWWWSS.....
+....WWWWWWWWWW......
+....WWWW..WWWW......
+....WWWW..WWWW......
+....................
+....................`);
+  const HAT = strip(`
+.........y..........
+.........o..........
+........ooo.........
+.......ooooo........
+......ooooooo.......
+......rrrrrrr.......`);
+  const MUG = strip(`
+..............WWW...
+..............WnW...
+..............WWW...`);
+
+  function drawSprite(ctx, rows, ox, oy){
+    for(let y=0;y<rows.length;y++){ const row=rows[y];
+      for(let x=0;x<row.length;x++){ const c=PAL[row[x]]; if(c){ ctx.fillStyle=c; ctx.fillRect(ox+x,oy+y,1,1); } } }
+  }
+  function drawDev(ctx, t){
+    const ox=38, oy=8;                      // anchor so feet sit near y=32 on the 96x72 stage lower area
+    const bob = (Math.floor(t/500)%2)?0:1;  // gentle 1px idle bob
+    const blink = (Math.floor(t/2600)%4===0);
+    // recolour: none; compose layers
+    let rows = DEV.map((r,i)=> (blink && BLINK[i]) ? BLINK[i] : r);
+    drawSprite(ctx, rows, ox, oy-bob);
+    if(opt.outfit) drawSprite(ctx, LABCOAT, ox, oy-bob);
+    if(opt.hat)   drawSprite(ctx, HAT, ox, oy-bob);
+    if(opt.act){  drawSprite(ctx, MUG, ox, oy-bob - (Math.floor(t/700)%3===0?2:0)); }
+  }
+  const pbgctx = document.getElementById('pixelBg').getContext('2d');
+  const pcharctx = document.getElementById('pixelChar').getContext('2d');
+  function renderPixel(t){
+    paintBG(pbgctx);
+    // character on its own 22x24 canvas, sized to match the paper panel
+    pcharctx.clearRect(0,0,22,24);
+    const ox=1, bob=(Math.floor(t/520)%2)?0:1, oy=2-bob;
+    const blink=(Math.floor(t/2600)%5===0);
+    const rows=DEV.map((r,i)=>(blink&&BLINK[i])?BLINK[i]:r);
+    drawSprite(pcharctx,rows,ox,oy);
+    if(opt.outfit) drawSprite(pcharctx,LABCOAT,ox,oy);
+    if(opt.hat) drawSprite(pcharctx,HAT,ox,oy);
+    if(opt.act) drawSprite(pcharctx,MUG,ox,oy-(Math.floor(t/700)%3===0?1:0));
+    requestAnimationFrame(renderPixel);
+  }
+
+  /* ===================== Paper Mario character ===================== */
+  const paperBg = document.getElementById('paperBg').getContext('2d');
+  const paperChar = document.getElementById('paperChar');
+  const INK = `<defs><filter id="ink" x="-25%" y="-25%" width="150%" height="150%">
+      <feMorphology in="SourceAlpha" operator="dilate" radius="1.8" result="o"/>
+      <feFlood flood-color="#2a2018"/><feComposite in2="o" operator="in" result="ol"/>
+      <feMerge><feMergeNode in="ol"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>`;
+  function renderPaper(){
+    paintBG(paperBg);
+    const cData = { hat: opt.hat?'party':null, outfit: opt.outfit?'labcoat':null, activity: opt.act?'coffee':null };
+    paperChar.innerHTML =
+      `<svg viewBox="0 0 100 132">${INK}<g filter="url(#ink)">${buildCharacter('coder', cData)}</g></svg>`;
+  }
+
+  /* ===================== controls ===================== */
+  document.querySelectorAll('[data-bg]').forEach(b=> b.addEventListener('click',()=>{
+    opt.bg=+b.dataset.bg; document.querySelectorAll('[data-bg]').forEach(x=>x.classList.remove('on'));
+    b.classList.add('on'); renderPaper(); }));
+  const tog=(id,key)=>{ const el=document.getElementById(id); el.addEventListener('click',()=>{
+    opt[key]=!opt[key]; el.classList.toggle('on',opt[key]); renderPaper(); }); };
+  tog('tOutfit','outfit'); tog('tHat','hat'); tog('tAct','act');
+
+  renderPaper();
+  requestAnimationFrame(renderPixel);
+  </script>
+</body>
+</html>

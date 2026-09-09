@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Days Since Last Screwup — the cubicle</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Fredoka:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="v5.css">
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hud">
+    <div class="panel"><div class="count" id="count"><small>Days since last screwup</small>5d 4h 22m</div>
+      <div class="lbl" style="margin-top:6px">best 11d · screwups 2</div></div>
+    <div class="panel"><div class="lbl">Level</div><div class="lv" id="lv">3</div>
+      <div class="bar"><i id="lvbar" style="width:40%"></i></div><div class="lbl" id="lvnote" style="margin-top:4px">Button-down · +3 Dad Energy</div></div>
+    <div class="panel"><div class="lbl">Bits</div><div class="bits" id="bits">1.2 Kb</div>
+      <div class="lbl" style="margin-top:6px">items <span id="itemct">0/24</span></div></div>
+    <div class="panel acts">
+      <button class="btn green" id="logSprint">＋ Log sprint</button>
+      <button class="btn purple" id="spin">🎁 Spin chest</button>
+      <button class="btn red" id="defect">⚠️ Defect</button>
+    </div>
+  </div>
+
+  <div class="stage" id="stage">
+    <div class="tag" id="tag">Level 3 · his cubicle</div>
+    <!-- character + items injected by JS over the cubicle background -->
+  </div>
+
+  <div class="dev">
+    <label>LEVEL <input type="range" id="lvRange" min="0" max="12" value="3"> <span class="val" id="lvVal">3</span></label>
+    <label>ITEMS <input type="range" id="itRange" min="0" max="24" value="8"> <span class="val" id="itVal">8</span></label>
+    <button class="btn ghost" id="allItems">All items</button>
+    <button class="btn ghost" id="noItems">Clear items</button>
+  </div>
+
+</div>
+<script src="v5.js"></script>
+</body>
+</html>

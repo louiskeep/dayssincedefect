@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Art Lab — Days Since Last Screwup</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Fredoka:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root{ --ink:#3a2b45; --card:#fffdf6; --stroke:#3a2b45; --shadow:rgba(58,43,69,.22); }
+  *{box-sizing:border-box;}
+  body{ margin:0; font-family:"Baloo 2",system-ui,sans-serif; color:var(--ink);
+    background:linear-gradient(160deg,#bfe6ff,#e8f4ff 34%,#ffe6c2); min-height:100vh; padding:22px; }
+  .wrap{ max-width:1280px; margin:0 auto; }
+  h1{ font-family:"Fredoka"; margin:0 0 2px; }
+  p.sub{ color:#7c6a53; margin:0 0 16px; font-weight:700; }
+  h2.sec{ font-family:"Fredoka"; margin:24px 0 10px; }
+  .grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:14px; }
+  .card{ background:var(--card); border:3px solid var(--stroke); border-radius:16px;
+    box-shadow:0 5px 0 var(--shadow); padding:8px; text-align:center; }
+  .card.lvl0{ outline:3px solid #37c06a; }
+  .card.final{ outline:3px solid #ff5c52; }
+  .card img{ width:100%; height:auto; border-radius:10px; display:block; background:#fbf2df; border:2px solid #e4d9c4; }
+  .card .lv{ font-family:"Fredoka"; font-weight:700; color:#2f9bff; margin-top:4px; }
+  .card .nm{ font-weight:800; font-size:.82em; line-height:1.05; }
+  .card .st{ color:#7c6a53; font-weight:700; font-size:.68em; min-height:2.4em; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>🎨 Art Lab — the 12-level transformation</h1>
+  <p class="sub">Office coder to cyborg warlord, all anchored to office-1. Each level changes only HIM. Refresh as new art lands.</p>
+  <div class="grid" id="grid"></div>
+
+  <h2 class="sec">The 24 cubicle items (bits) — they fill his office + become the ammo</h2>
+  <div class="grid" id="items"></div>
+</div>
+<script>
+  const L = [
+    ["office-1-navy.png","0","The Coder","navy polo, day one"],
+    ["level-01.png","1","Button-down","+3 Dad Energy"],
+    ["level-02.png","2","Slacks","+4 Business Casual"],
+    ["level-03.png","3","Dress shoes","+5 Corner-Office Aura"],
+    ["level-04.png","4","Blue-light glasses","+8 Alertness"],
+    ["level-05.png","5","Company t-shirt","+6 Team Spirit"],
+    ["level-06.png","6","Crossfit (buff)","+15 Gains"],
+    ["level-07.png","7","Cyborg eyes","+12 Perception"],
+    ["level-08.png","8","Suspicious backpack","-5 Sneak"],
+    ["level-09.png","9","Robot arm","+30 Grip"],
+    ["level-10.png","10","Wifi antenna","+10 Connectivity"],
+    ["level-11.png","11","Company card","+30 Purchasing Power"],
+    ["level-12.png","12","POWER SUIT","+100 Executive Presence"],
+  ];
+  const g = document.getElementById("grid");
+  L.forEach(([img,lv,nm,st])=>{
+    const c=document.createElement("div");
+    c.className="card"+(lv==="0"?" lvl0":"")+(lv==="12"?" final":"");
+    c.innerHTML=`<img src="assets/${img}?v=${Date.now()}" alt="${nm}"><div class="lv">Lv ${lv}</div><div class="nm">${nm}</div><div class="st">${st}</div>`;
+    g.appendChild(c);
+  });
+
+  const ITEMS = ["Ergonomic chair","Standing desk","Second monitor","Desktop tower",
+    "Filing cabinet","Mini fridge","Bookshelf","Potted plant","Okayest Coder mug",
+    "Keyboard","Desk lamp","Sticky notes","Red stapler","Coffee machine","Rubber duck",
+    "Bobblehead","Newton's cradle","Stress ball","Fidget cube","Photo frame (duck)",
+    "Hang-in-there poster","Whiteboard","Wall clock","Employee of the Month"];
+  const ig = document.getElementById("items");
+  ITEMS.forEach((nm,i)=>{
+    const n=String(i+1).padStart(2,"0");
+    const c=document.createElement("div"); c.className="card";
+    c.innerHTML=`<img src="assets/item-${n}.png?v=${Date.now()}" alt="${nm}"><div class="nm">${nm}</div>`;
+    ig.appendChild(c);
+  });
+</script>
+</body>
+</html>

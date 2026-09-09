@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Days Since Defect</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Fredoka:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="game.css?v=64">
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hbar">
+    <div class="seg seg-days">
+      <span class="seg-ic">🔥</span>
+      <div class="seg-body">
+        <div class="seg-lbl">Days since defect</div>
+        <div class="seg-val" id="count">—</div>
+      </div>
+      <div class="seg-sub" id="rec">best 0d · 0 defects</div>
+    </div>
+
+    <div class="seg seg-lv">
+      <span class="seg-ic">⭐</span>
+      <div class="seg-lvwrap">
+        <div class="lvline"><span class="lv2">Lv <span id="lv">0</span></span><span class="lvname" id="lvnote">The Coder</span></div>
+        <div class="bar"><i id="lvbar"></i></div>
+      </div>
+    </div>
+
+    <div class="seg seg-bits" title="Each bobblehead you own adds +10% to your bits per day.">
+      <span class="coin" aria-hidden="true"></span>
+      <div class="seg-body">
+        <div class="seg-lbl">Bits</div>
+        <div class="seg-val" id="bits">0</div>
+      </div>
+      <div class="seg-sub">+<span id="rate">0</span>/day <span class="rate-mod" id="rateMod" hidden></span></div>
+    </div>
+
+    <div class="seg seg-right">
+      <span class="chip">🎎 <b id="col">0/24</b></span>
+      <span class="chip">🧰 <b id="gearhud">0/12</b></span>
+      <button class="hbtn" id="helpBtn" title="How to play" aria-label="How to play">?</button>
+      <a class="hbtn" href="home.html" title="Home">⌂</a>
+      <button class="hbtn" id="devBtn" title="Dev tools" aria-label="Dev tools">⚙</button>
+    </div>
+  </header>
+
+  <div class="stage">
+
+    <aside class="side gear-side">
+      <h3>🧰 Gear unlocked</h3>
+      <p class="sub"><span id="gearsub">0 / 12</span></p>
+      <div class="gearshelf" id="gearShelf"></div>
+    </aside>
+
+    <div class="room" id="room">
+      <img class="prop cal" id="calProp" alt="Log a sprint">
+      <div class="vend" id="vendProp"><img id="vendImg" alt="Buy a box"></div>
+      <img class="prop alarm" id="alarmProp" alt="Report a defect">
+      <img class="prop todo" id="todoProp" alt="Team to-do list">
+      <img class="prop cookie" id="cookieProp" alt="Fortune cookie">
+      <span class="plabel lbl-cal">📅 Log a sprint</span>
+      <span class="plabel lbl-vend" id="lblVend">🥤 Buy a box</span>
+      <span class="plabel lbl-alarm">🚨 Report a defect</span>
+      <span class="plabel lbl-todo">📋 To-do list</span>
+      <span class="plabel lbl-cookie">🥠 Draw a question</span>
+      <img class="prop fridge" id="fridgeProp" alt="Fridge magnets" title="Fridge magnets">
+      <span class="plabel lbl-fridge">🧲 Magnets</span>
+      <div class="redwash"></div>
+      <img class="duck" id="duckProp" alt="" hidden>
+      <img class="hero" id="hero" alt="">
+    </div>
+
+    <aside class="side shelf-side">
+      <h3>🎎 Bobbleheads</h3>
+      <p class="sub"><span id="colsub">0 / 24</span></p>
+      <div class="shelf" id="shelf"></div>
+    </aside>
+
+  </div>
+
+</div>
+
+<!-- boss trigger (appears at max level + all 24 bobbleheads) -->
+<button id="bossBtn" class="bossbtn" hidden>⚔ FIGHT THE DEFECT DRAGON</button>
+
+<!-- boss fight -->
+<div class="modal bossmodal" id="bossModal"><div class="arena" id="arena">
+  <div class="hpwrap"><div class="hplabel">🐉 DEFECT DRAGON</div>
+    <div class="hpbar"><i id="dragonHp"></i></div></div>
+  <img class="boss-dragon" id="bossDragon" alt="Defect Dragon">
+  <img class="boss-hero" id="bossHero" alt="">
+  <div class="fxlayer" id="fxLayer"></div>
+  <button class="btn boss-attack" id="attackBtn">⚔ ATTACK!</button>
+  <div class="boss-win" id="bossWin" hidden>
+    <div class="win-title">VICTORY!</div>
+    <p>The Defect Dragon is down. Ship in peace.</p>
+    <div class="row-btn">
+      <button class="btn green" id="celebrateBtn">🎉 Celebrate</button>
+      <button class="btn ghost" id="newSeasonBtn">↺ New season</button>
+    </div>
+  </div>
+</div></div>
+
+<!-- Log sprint -->
+<div class="modal" id="logModal"><div class="sheet">
+  <h2>📅 Log a sprint</h2>
+  <p>Drop in the sprint points the team earned this retro. Points push you toward the next level.</p>
+  <div class="numrow"><button class="btn ghost" id="ptMinus">–</button>
+    <input type="number" id="ptInput" value="20" min="1" max="999">
+    <button class="btn ghost" id="ptPlus">+</button></div>
+  <p class="lbl" id="logNeed"></p>
+  <div class="row-btn"><button class="btn" id="logCancel">Cancel</button>
+    <button class="btn green" id="logGo">Log it</button></div>
+</div></div>
+
+<!-- Buy a box -->
+<div class="modal" id="spinModal"><div class="sheet">
+  <h2>🥤 Buy a box</h2>
+  <p id="spinBody"></p>
+  <p class="lbl spin-bonus">🎎 Each bobblehead you own adds <b>+10%</b> to your bits per day.</p>
+  <div class="row-btn"><button class="btn" id="spinCancel">Maybe later</button>
+    <button class="btn purple" id="spinGo">Buy · <span id="spinCost">0</span></button></div>
+</div></div>
+
+<!-- Defect -->
+<div class="modal" id="defectModal"><div class="sheet">
+  <h2>🚨 Report a defect</h2>
+  <p>Something shipped broken. This resets the <b>days-since counter</b> and applies the defect punishment. Your collection stays safe.</p>
+  <p class="lbl" id="defectLose"></p>
+  <div class="row-btn"><button class="btn" id="defectCancel">False alarm</button>
+    <button class="btn red" id="defectGo">Yep, we broke it</button></div>
+</div></div>
+
+<!-- quick post-mortem (shown before the defect penalty applies) -->
+<div class="modal" id="pmModal"><div class="sheet">
+  <h2>🩹 Quick post-mortem</h2>
+  <p class="lbl">Take ten seconds before you take the hit.</p>
+  <p class="pm-q" id="pmQ"></p>
+  <textarea id="pmNote" rows="3" placeholder="Jot the cause or the lesson (optional). Saved to this season's recap."></textarea>
+  <div class="row-btn"><button class="btn ghost" id="pmSkip">Skip</button>
+    <button class="btn red" id="pmGo">Log it &amp; take the hit</button></div>
+</div></div>
+
+<!-- team to-do list + post-mortem log (opened by the wall board prop) -->
+<div class="modal" id="ideaModal"><div class="sheet ideasheet">
+  <div class="tabs">
+    <button class="tab on" id="tabTodo">📋 To-do</button>
+    <button class="tab" id="tabPm">🩹 Post-mortems</button>
+  </div>
+  <div class="tabpane" id="paneTodo">
+    <p class="lbl" id="ideaCount"></p>
+    <div class="idea-add">
+      <textarea id="ideaInput" rows="2" placeholder="Add a to-do…"></textarea>
+      <button class="btn green" id="ideaAdd">Add</button>
+    </div>
+    <div class="idea-list" id="ideaList"></div>
+  </div>
+  <div class="tabpane" id="panePm" hidden>
+    <p class="lbl" id="pmCount"></p>
+    <div class="idea-list" id="pmList"></div>
+  </div>
+  <div class="row-btn"><button class="btn" id="ideaClose">Close</button></div>
+</div></div>
+
+<!-- fridge magnets: lifetime achievement badges (opened by clicking the fridge) -->
+<div class="modal" id="fridgeModal"><div class="sheet magsheet">
+  <h2>🧲 Fridge magnets</h2>
+  <p class="lbl" id="badgeCount"></p>
+  <div class="badge-grid" id="badgeGrid"></div>
+  <div class="row-btn"><button class="btn" id="fridgeClose">Close</button></div>
+</div></div>
+
+<!-- end-of-season recap card (pops when a season ends; also banked to the Seasons tab) -->
+<div class="modal" id="recapModal"><div class="sheet">
+  <h2 id="recapTitle">Season complete!</h2>
+  <p class="lbl">Saved to the Seasons tab in settings, so you can look back anytime.</p>
+  <div class="season-card" id="recapBody"></div>
+  <div class="row-btn"><button class="btn green" id="recapNext">Start next season</button></div>
+</div></div>
+
+<!-- how to play -->
+<div class="modal" id="helpModal"><div class="sheet">
+  <h2>How to play</h2>
+  <div class="howto">
+    <p><b>📅 Log a sprint.</b> Every sprint review, click the wall calendar and enter your team's sprint points. Points level up your character, office coder all the way to office technomancer.</p>
+    <p><b>🥤 Collect bobbleheads.</b> Bits pile up each day the build stays green. Spend them at the vending machine to pull office bobbleheads, all 24 to collect.</p>
+    <p><b>🚨 Own your defects.</b> Ship something broken? Pull the fire alarm. You answer one quick post-mortem question, get knocked down a level, lose a chunk of bits, and the days-since counter resets.</p>
+    <p><b>📋 Team to-do list.</b> Click the board on the wall to jot down team to-dos and ideas, then check them off as you finish. The list sticks around across seasons, so revisit it at each retro.</p>
+    <p><b>🐉 Beat the Defect Dragon.</b> Reach max level and collect all 24 bobbleheads to earn the keycard, then take on the Defect Dragon to win the season. Each finished season is saved under ⚙ → Seasons.</p>
+  </div>
+  <div class="row-btn"><button class="btn" id="helpClose">Got it</button></div>
+</div></div>
+
+<!-- fortune cookie -->
+<div class="modal" id="fortuneModal"><div class="sheet">
+  <h2>🥠 Fortune cookie</h2>
+  <div class="cookie-stage">
+    <img id="cookieImg" class="cookiebig" alt="fortune cookie" title="Click for another question">
+    <div class="fortune-slip" id="fortuneSlip" hidden><p id="fortuneText"></p></div>
+  </div>
+  <p class="lbl" id="cookieHint">Click the cookie to crack it open.</p>
+  <div class="row-btn">
+    <button class="btn ghost" id="cookieAgain" hidden>Another cookie</button>
+    <button class="btn" id="fortuneClose">Close</button>
+  </div>
+</div></div>
+
+<!-- generic card (bobblehead reveal + bio) -->
+<div class="modal" id="cardModal"><div class="cardbox" id="cardBox"></div></div>
+
+<!-- trophy / level up -->
+<div class="modal" id="trophyModal"><div class="sheet" id="trophyBox"></div></div>
+
+<!-- dev tools -->
+<div class="modal" id="devModal"><div class="sheet devsheet">
+  <div class="tabs">
+    <button class="tab on" id="tabDev">⚙ Dev</button>
+    <button class="tab" id="tabSetup">🎯 Setup</button>
+    <button class="tab" id="tabFortunes">🥠 Questions</button>
+    <button class="tab" id="tabSeasons">📜 Seasons</button>
+    <button class="tab" id="tabDefect">🚨 Defect</button>
+  </div>
+
+  <div class="dev-body">
+  <div class="tabpane" id="paneFortunes" hidden>
+    <p class="dp-intro">Sprint-review questions the cookie draws from.</p>
+    <div class="idea-add">
+      <textarea id="fortuneInput" rows="2" placeholder="Add a sprint-review question…"></textarea>
+      <button class="btn green" id="fortuneAdd">Add</button>
+    </div>
+    <p class="lbl" id="fortuneCount"></p>
+    <div class="idea-list" id="fortuneList"></div>
+    <div class="row-btn"><button class="btn ghost" id="fortuneReset">Reset to defaults</button></div>
+  </div>
+
+  <div class="tabpane" id="paneSeasons" hidden>
+    <p class="dp-intro">Past seasons</p>
+    <div class="season-list" id="seasonList"></div>
+  </div>
+
+  <div class="tabpane" id="paneSetup" hidden>
+    <p class="dp-intro">Set your team's cadence and pick how long a season should run. The game tunes itself so leveling and the collection both finish on that sprint.</p>
+    <label class="dprow"><span>Sprint length (weeks)</span> <input type="number" id="sprintWeeks" min="1" max="8" step="1" value="2"></label>
+    <label class="dprow"><span>Avg points per sprint</span> <input type="number" id="avgPoints" min="1" max="999" value="30"></label>
+    <label class="dprow"><span>Season length (sprints)</span> <input type="number" id="seasonSprints" min="2" max="52" step="1" value="6"></label>
+    <p class="dp-note" id="setupNote"></p>
+    <div class="row-btn"><button class="btn ghost" id="setupReset">Reset to defaults</button></div>
+  </div>
+
+  <div class="tabpane" id="paneDev">
+    <label class="devrow">LEVEL <input type="range" id="lvRange" min="0" max="12" value="0"> <span class="val" id="lvVal">0</span></label>
+    <div class="row-btn">
+      <button class="btn ghost" id="addBits">+500 bits</button>
+      <button class="btn ghost" id="addDay">+1 day</button>
+      <button class="btn ghost" id="subDay">-1 day</button>
+      <button class="btn ghost" id="fillShelf">Fill shelf</button>
+      <button class="btn ghost" id="wipe">Reset save</button>
+    </div>
+  </div>
+
+  <div class="tabpane" id="paneDefect" hidden>
+    <p class="dp-intro">When a defect is reported, take away:</p>
+    <label class="dprow"><span>Bits removed</span> <input type="number" id="defBits" min="0" max="100" value="30"><b>%</b></label>
+    <label class="dprow" id="defLevelsRow"><span>Levels removed</span> <input type="number" id="defLevels" min="0" max="12" value="1"></label>
+    <label class="dpcheck"><input type="checkbox" id="defAll"> Reset all levels to zero</label>
+    <p class="dp-note" id="defNote"></p>
+  </div>
+  </div>
+
+  <div class="row-btn"><button class="btn" id="devClose">Close</button></div>
+</div></div>
+
+<script src="game.js?v=64"></script>
+</body>
+</html>

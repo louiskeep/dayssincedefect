@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Data Ops — Days Since Last Screwup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Fredoka:wght@500;600;700&family=Luckiest+Guy&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="v2.css">
+</head>
+<body>
+<div class="wrap">
+
+  <!-- HUD -->
+  <div class="hud">
+    <div class="panel stat">
+      <div class="lbl">Since last screwup</div>
+      <div class="big green" id="timer">0d 0h 0m 0s</div>
+      <div class="sub">best: <span id="best">0s</span></div>
+      <div class="sub">reset count: <span id="resets">0</span></div>
+    </div>
+    <div class="panel stat">
+      <div class="lbl">Total bits</div>
+      <div class="big blue" id="totalBits">0 b</div>
+      <div class="lbl" style="margin-top:6px">Bits / sec</div>
+      <div class="green" id="bps" style="font-size:1.3em">0 b</div>
+    </div>
+    <div class="panel">
+      <div class="lbl">Data stream</div>
+      <canvas id="dstream" width="320" height="60"></canvas>
+    </div>
+    <div class="panel">
+      <div class="lbl">Sprint points</div>
+      <div class="big purple" id="sp">0</div>
+      <div class="actions">
+        <button class="pxbtn green" id="logSprint">＋ Log sprint</button>
+        <button class="pxbtn red" id="reportDefect">⚠ Ship defect</button>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="lbl">Next bonus</div>
+      <div class="teal" id="nextBonus" style="font-size:1.2em">—</div>
+      <div class="sub" id="nextBonusPct">reach a streak for a permanent boost</div>
+      <div class="icons" style="margin-top:8px">
+        <div class="iconbtn" id="btnSave" title="Save">💾</div>
+        <div class="iconbtn" title="Multipliers" id="btnMult">📊</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Office scene -->
+  <div class="scene">
+    <div class="skyline"></div>
+    <div class="floor"></div>
+    <div class="worker-row" id="workerRow"></div>
+  </div>
+
+  <!-- Stations -->
+  <div class="rowlbl">Workstations · upgrade with bits</div>
+  <div class="cards" id="stationCards"></div>
+
+  <!-- Decorations -->
+  <div class="rowlbl">Decorations · % all bits</div>
+  <div class="cards" id="decorCards"></div>
+
+  <div class="tip" id="tip">💡 Log your sprint points to hire the crew. Every hire and upgrade speeds up the bits.</div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- generic prompt modal -->
+<div class="modal" id="modal"><div class="box" id="modalBox"></div></div>
+
+<script src="v2.js"></script>
+</body>
+</html>

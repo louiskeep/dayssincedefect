@@ -1,0 +1,140 @@
+/* ============================================================================
+   Days Since Last Screwup — v3
+   Simple sprint-driven game (see screwup-game-spec-v3.md). Cartoon skin.
+   Sticker crew is placeholder emoji; swap for Higgsfield art later.
+   ============================================================================ */
+:root {
+  --bg1:#bfe6ff; --bg2:#ffe6c2; --card:#fffdf6; --card2:#fff3dc;
+  --ink:#3a2b45; --ink-soft:#8a7d93; --stroke:#3a2b45;
+  --blue:#2f9bff; --purple:#9b6cff; --green:#37c06a; --green-d:#249a52;
+  --red:#ff5c52; --amber:#ffb02e; --teal:#12a49b; --pink:#ff77c2;
+  --shadow:rgba(58,43,69,.22);
+  --disp:"Fredoka",system-ui,sans-serif; --head:"Baloo 2",system-ui,sans-serif;
+}
+* { box-sizing:border-box; }
+html,body { margin:0; color:var(--ink); font-family:var(--head); font-size:16px;
+  background:linear-gradient(160deg,var(--bg1) 0%,#e8f4ff 34%,var(--bg2) 100%); min-height:100vh; }
+body { padding:14px; -webkit-font-smoothing:antialiased; }
+.wrap { max-width:1200px; margin:0 auto; display:flex; flex-direction:column; gap:14px; }
+.disp { font-family:var(--disp); font-weight:700; }
+.dim { color:var(--ink-soft); } .green{color:var(--green-d);} .blue{color:var(--blue);}
+.purple{color:var(--purple);} .red{color:var(--red);} .amber{color:#e08a00;}
+
+.panel { background:var(--card); border:3px solid var(--stroke); border-radius:22px;
+  box-shadow:0 6px 0 var(--shadow); padding:16px 18px; }
+.lbl { color:var(--ink-soft); font-size:.8em; letter-spacing:.04em; text-transform:uppercase; font-weight:800; }
+
+/* ---- Board ---- */
+.board { display:grid; grid-template-columns:1.4fr 1fr; gap:18px; align-items:stretch; }
+@media (max-width:720px){ .board{ grid-template-columns:1fr; } }
+.hero .count { font-family:var(--disp); font-weight:700; font-size:3.4em; line-height:1; color:var(--green-d); }
+.hero .count small { display:block; font-size:.3em; letter-spacing:.06em; color:var(--ink-soft); text-transform:uppercase; margin-bottom:6px; font-family:var(--head); }
+.hero .subs { margin-top:10px; display:flex; gap:16px; color:var(--ink-soft); font-weight:700; font-size:.9em; }
+.side { display:flex; flex-direction:column; gap:10px; }
+.side .row { display:flex; align-items:baseline; gap:10px; justify-content:space-between; }
+.side .lv { font-family:var(--disp); font-weight:700; font-size:2.1em; color:var(--purple); line-height:1; }
+.bar { height:16px; background:#efe6f7; border:3px solid var(--stroke); border-radius:12px; overflow:hidden; }
+.bar i { display:block; height:100%; width:0%; background:linear-gradient(90deg,#b98cff,#8a5cf0); transition:width .4s; }
+.side .bits { font-family:var(--disp); font-weight:700; font-size:1.7em; color:var(--blue); }
+.side .rate { color:var(--ink-soft); font-weight:700; font-size:.9em; }
+.rate-note { color:var(--blue); font-weight:800; font-size:.78em; margin-top:2px; }
+
+/* ---- Buttons ---- */
+.toolbar { display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+.btn { font-family:var(--head); font-weight:800; font-size:1em; cursor:pointer; color:#fff;
+  background:var(--blue); border:3px solid var(--stroke); border-radius:14px; padding:11px 18px;
+  box-shadow:0 4px 0 var(--shadow); transition:transform .06s,box-shadow .06s; }
+.btn:hover{ filter:brightness(1.05);} .btn:active{ transform:translateY(4px); box-shadow:0 0 0 var(--shadow); }
+.btn.green{ background:var(--green);} .btn.red{ background:var(--red);} .btn.purple{ background:var(--purple);}
+.btn.amber{ background:var(--amber); color:var(--ink);} .btn.ghost{ background:var(--card2); color:var(--ink);}
+.btn:disabled{ filter:grayscale(.5) brightness(.9); cursor:not-allowed; }
+.btn .cost { font-family:var(--disp); font-weight:700; opacity:.95; }
+
+/* ---- Crew ---- */
+.rowlbl { font-family:var(--head); font-weight:800; text-transform:uppercase; letter-spacing:.02em;
+  color:var(--ink); margin:2px 4px -4px; }
+.rowlbl small { color:var(--ink-soft); font-weight:700; text-transform:none; }
+.crew { display:grid; grid-template-columns:repeat(10,1fr); gap:12px; }
+@media (max-width:980px){ .crew{ grid-template-columns:repeat(5,1fr);} }
+@media (max-width:560px){ .crew{ grid-template-columns:repeat(3,1fr);} }
+.cmate { background:var(--card); border:3px solid var(--stroke); border-radius:16px; padding:8px 6px;
+  box-shadow:0 5px 0 var(--shadow); display:flex; flex-direction:column; align-items:center; gap:4px;
+  cursor:pointer; position:relative; transition:transform .08s; }
+.cmate:hover{ transform:translateY(-3px); }
+.cmate .mult-badge { position:absolute; top:-9px; right:-6px; background:var(--blue); color:#fff;
+  font-size:.62em; font-weight:800; padding:2px 6px; border:2px solid var(--stroke); border-radius:10px;
+  box-shadow:0 2px 0 var(--shadow); }
+.cmate .badge-slot { position:absolute; top:6px; font-size:1.05em; filter:drop-shadow(0 1px 0 rgba(0,0,0,.25)); }
+.cmate .b-hat{ top:2px; left:50%; transform:translateX(-50%); }
+.cmate .b-prop{ bottom:28px; right:8px; top:auto; }
+.cmate .b-outfit{ bottom:26px; left:8px; top:auto; }
+.cmate .disc { width:58px; height:58px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+  font-size:2em; border:3px solid var(--stroke); box-shadow:inset 0 -4px 0 rgba(0,0,0,.12); position:relative; }
+.cmate .disc.aura::after{ content:attr(data-aura); position:absolute; inset:-6px; display:flex; align-items:flex-start;
+  justify-content:flex-end; font-size:.7em; }
+.cmate .nm { font-weight:800; font-size:.82em; line-height:1; text-align:center; }
+.cmate .kd { color:var(--ink-soft); font-weight:700; font-size:.7em; }
+.cmate.locked { opacity:.75; cursor:default; background:var(--card2); }
+.cmate.locked .disc { background:#e6dcc6 !important; color:#b3a68f; }
+.cmate.locked .nm { color:var(--ink-soft); }
+.cmate.locked:hover{ transform:none; }
+.cmate.pop { animation:pop .5s ease; }
+@keyframes pop { 0%{ transform:scale(.4) rotate(-8deg);} 60%{ transform:scale(1.12);} 100%{ transform:scale(1);} }
+
+/* ---- Collection strip ---- */
+.collect { display:flex; align-items:center; gap:14px; flex-wrap:wrap; }
+.collect .meter { flex:1; min-width:160px; }
+.trophies { display:flex; gap:6px; flex-wrap:wrap; }
+.trophies span { font-size:1.4em; filter:drop-shadow(0 2px 0 var(--shadow)); }
+
+/* ---- Boss banner ---- */
+.boss-banner { display:none; text-align:center; background:linear-gradient(#3a2b45,#5a3a6a); color:#fff;
+  border:3px solid var(--stroke); border-radius:22px; padding:16px; box-shadow:0 6px 0 var(--shadow); }
+.boss-banner.show { display:block; }
+.boss-banner .drg { font-size:2.4em; }
+
+/* ---- toast + modal ---- */
+.toast { position:fixed; left:50%; bottom:22px; transform:translateX(-50%) translateY(20px);
+  background:var(--ink); color:#fff; font-weight:800; padding:11px 20px; border-radius:14px; border:3px solid var(--stroke);
+  box-shadow:0 5px 0 var(--shadow); opacity:0; transition:.2s; z-index:80; pointer-events:none; }
+.toast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
+.modal{ position:fixed; inset:0; background:rgba(58,43,69,.5); display:none; align-items:center; justify-content:center; z-index:90; padding:20px; }
+.modal.open{ display:flex; }
+.modal .box{ background:var(--card); border:3px solid var(--stroke); border-radius:24px; padding:24px; max-width:460px; width:100%;
+  box-shadow:0 8px 0 var(--shadow); text-align:center; }
+.modal h3{ margin:0 0 6px; font-weight:800; font-size:1.6em; }
+.modal p{ color:var(--ink-soft); font-weight:700; margin:6px 0 14px; }
+.modal input{ width:100%; font-family:var(--disp); font-size:1.3em; text-align:center; background:#fff; color:var(--ink);
+  border:3px solid var(--stroke); border-radius:12px; padding:10px; }
+.modal .row{ display:flex; gap:10px; margin-top:16px; } .modal .row .btn{ flex:1; text-align:center; }
+.reveal-item { font-size:4em; margin:10px 0; animation:pop .5s ease; }
+.chips { display:flex; gap:8px; flex-wrap:wrap; justify-content:center; margin:6px 0; }
+.chip { border:3px solid var(--stroke); background:var(--card2); border-radius:12px; padding:8px 10px; cursor:pointer;
+  font-weight:800; font-size:1.1em; box-shadow:0 3px 0 var(--shadow); }
+.chip.on { background:var(--green); color:#fff; } .chip.none{ font-size:.85em; color:var(--ink-soft); }
+.slotgrp { margin:10px 0; text-align:left; } .slotgrp h4{ margin:0 0 4px; font-size:.85em; color:var(--ink-soft); text-transform:uppercase; }
+
+/* ---- Circus prize wheel ---- */
+.wheel-wrap { position:relative; width:240px; height:240px; margin:8px auto 4px; }
+.wheel { width:240px; height:240px; border-radius:50%; border:5px solid var(--stroke);
+  box-shadow:0 6px 0 var(--shadow); transition:transform 3.4s cubic-bezier(.15,.85,.25,1); }
+.wheel-wrap .hub { position:absolute; inset:50% auto auto 50%; transform:translate(-50%,-50%);
+  width:38px; height:38px; border-radius:50%; background:var(--card); border:4px solid var(--stroke); z-index:3; }
+.wheel-wrap .ptr { position:absolute; top:-10px; left:50%; transform:translateX(-50%);
+  font-size:1.8em; z-index:4; filter:drop-shadow(0 2px 0 var(--shadow)); }
+.wheel-wrap .seg { position:absolute; top:50%; left:50%; font-size:.82em; font-weight:800; color:#fff;
+  transform-origin:0 0; text-shadow:0 1px 2px rgba(0,0,0,.5); pointer-events:none; }
+.tix-cnt { font-family:var(--disp); font-weight:700; color:#e08a00; }
+
+/* boss fight overlay */
+.fight { position:fixed; inset:0; z-index:95; display:none; align-items:center; justify-content:center;
+  background:radial-gradient(circle,#5a3a6a,#2a1a35); }
+.fight.show{ display:flex; }
+.fight .arena { text-align:center; color:#fff; }
+.fight .dragon { font-size:6em; display:inline-block; animation:shake .3s infinite; }
+@keyframes shake { 0%,100%{transform:translateX(-4px) rotate(-2deg);} 50%{transform:translateX(4px) rotate(2deg);} }
+.fight .throng { font-size:2em; margin-top:10px; letter-spacing:4px; }
+.projectile { position:fixed; font-size:1.8em; z-index:96; pointer-events:none; }
+.confetti { position:fixed; inset:0; pointer-events:none; z-index:97; overflow:hidden; }
+.confetti i { position:absolute; width:10px; height:16px; top:-20px; animation:fall 1.8s linear forwards; }
+@keyframes fall { to{ transform:translateY(110vh) rotate(600deg);} }
