@@ -63,24 +63,13 @@ const GEARLINE = [
   "Finally allowed in through the front door.",
 ];
 
-/* ---------- background keying (edge flood-fill of the cream bg) ---------- */
-/* bump when any assets/*.png sprite is replaced, so browsers fetch the new one instead of a cached copy */
-const ASSET_VER=64;
-const cache={};
-function keyed(file){
-  if(cache[file])return Promise.resolve(cache[file]);
-  return new Promise(res=>{const img=new Image();img.onload=()=>{
-    const s=Math.min(1,520/img.naturalWidth),w=Math.round(img.naturalWidth*s),h=Math.round(img.naturalHeight*s);
-    const cv=document.createElement("canvas");cv.width=w;cv.height=h;const cx=cv.getContext("2d");cx.drawImage(img,0,0,w,h);
-    const im=cx.getImageData(0,0,w,h),p=im.data,br=p[0],bg=p[1],bb=p[2],th=42;
-    const near=i=>Math.abs(p[i]-br)<th&&Math.abs(p[i+1]-bg)<th&&Math.abs(p[i+2]-bb)<th;
-    const stk=[],seen=new Uint8Array(w*h);
-    for(let x=0;x<w;x++){stk.push(x);stk.push((h-1)*w+x);}
-    for(let y=0;y<h;y++){stk.push(y*w);stk.push(y*w+w-1);}
-    while(stk.length){const idx=stk.pop();if(seen[idx])continue;seen[idx]=1;const i=idx*4;if(!near(i))continue;p[i+3]=0;
-      const x=idx%w,y=(idx/w)|0;if(x>0)stk.push(idx-1);if(x<w-1)stk.push(idx+1);if(y>0)stk.push(idx-w);if(y<h-1)stk.push(idx+w);}
-    cx.putImageData(im,0,0);cache[file]=cv.toDataURL();res(cache[file]);};img.src="assets/"+file+"?a="+ASSET_VER;});
-}
+/* ---------- sprite loading ----------
+   Sprite PNGs in assets/ already have transparent backgrounds baked in, so we just hand back the
+   URL. (Earlier builds stripped the background at runtime with a canvas, but reading canvas pixels
+   is blocked for images loaded over file://, which broke a plain double-click open. No canvas now,
+   so the game runs straight from the filesystem.) Bump ASSET_VER when a sprite PNG is replaced. */
+const ASSET_VER=65;
+function keyed(file){return Promise.resolve("assets/"+file+"?a="+ASSET_VER);}
 
 /* ---------- state ---------- */
 const KEY="dsls_v1", DAY=86400000;
