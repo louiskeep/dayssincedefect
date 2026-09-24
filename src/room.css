@@ -1,0 +1,86 @@
+/* The break room scene: the room background, the interactive props (calendar,
+   vending machine, fire alarm, fridge), the hero + duck sprites, the defect FX,
+   the hover labels, and the three-column stage layout. Prop positions are set
+   inline from PROP_POS in scene.js; this file styles their look and hover. */
+
+/* break room scene */
+.room{position:relative;width:100%;aspect-ratio:3/2;border:3px solid var(--stroke);border-radius:18px;overflow:hidden;
+  box-shadow:0 6px 0 var(--shadow);background:#f6ece0 url("../assets/breakroom-7.png") center/cover no-repeat;}
+
+/* Every interactive prop is a bounding box: left/top/width/height are set from PROP_POS in JS
+   (one place), and the sprite fits inside via object-fit so it never distorts. */
+.prop{position:absolute;cursor:pointer;z-index:5;object-fit:contain;object-position:center bottom;
+  transition:transform .18s ease, filter .18s ease;filter:drop-shadow(0 5px 4px rgba(0,0,0,.32));}
+.prop:hover{filter:drop-shadow(0 11px 8px rgba(0,0,0,.4)) brightness(1.04);}
+
+/* calendar — Log sprint (lifts up) */
+.cal{transform-origin:top center;}
+.cal:hover{transform:translateY(-14px) rotate(-3deg);}
+
+/* vending machine — Buy a box (wiggles) */
+.vend{position:absolute;cursor:pointer;z-index:5;transform-origin:bottom center;margin-top:10px;
+  transition:transform .18s ease;filter:drop-shadow(0 5px 4px rgba(0,0,0,.35));}
+.vend img{width:100%;height:100%;object-fit:contain;object-position:center bottom;display:block;}
+.vend:hover{transform:translateY(-8px);}
+
+/* fire alarm — Report defect (pulls down, scene reddens); angled sprite on the far right wall */
+.alarm{transform-origin:top center;z-index:6;}
+.alarm:hover{transform:translateY(8px) rotate(1deg);}
+.redwash{position:absolute;inset:0;pointer-events:none;z-index:20;opacity:0;transition:opacity .18s ease;
+  background:radial-gradient(circle at 96% 46%, rgba(255,80,50,.15), rgba(200,0,0,.55));mix-blend-mode:multiply;}
+.alarm:hover ~ .redwash{opacity:.6;}
+
+/* fridge — Fridge magnets (lifts). Flipped so its 3D side panel faces right. */
+.fridge{transform-origin:bottom center;z-index:5;transform:scaleX(-1);margin-top:35px;}
+.fridge:hover{transform:scaleX(-1) translateY(-8px);}
+
+/* character — stands on the floor; z above the wall props so he's in FRONT of them */
+.hero{position:absolute;left:52.7%;bottom:6.6%;height:47.6%;transform:translateX(-50%);z-index:8;pointer-events:none;
+  image-rendering:pixelated;filter:drop-shadow(0 6px 4px rgba(0,0,0,.42));transition:opacity .28s ease;}
+.hero.mech{height:60%;left:52.7%;bottom:5.6%;}   /* Lv 12 final form is a big mech */
+
+/* debug-duck companion, on the floor between the vending machine and the fridge */
+.duck{position:absolute;left:39%;bottom:8%;height:17.5%;transform:translateX(-50%);z-index:5;
+  image-rendering:pixelated;filter:drop-shadow(0 4px 3px rgba(0,0,0,.35));}
+.duck.suit{height:17.5%;}   /* same size as the plain duck */
+
+/* defect FX: smoke puff on the character + floating loss popups */
+.smokepuff{position:absolute;width:20%;aspect-ratio:1;transform:translate(-50%,-50%);z-index:9;pointer-events:none;
+  background:radial-gradient(circle at 50% 50%, rgba(228,228,233,.95), rgba(200,200,210,.5) 45%, rgba(190,190,200,0) 70%);
+  animation:puff .95s ease-out forwards;}
+@keyframes puff{0%{transform:translate(-50%,-50%) scale(.35);opacity:0}
+  25%{opacity:.95}100%{transform:translate(-50%,-150%) scale(2.3);opacity:0}}
+.fxpop{position:absolute;transform:translateX(-50%);z-index:31;pointer-events:none;
+  font-family:var(--disp);font-weight:700;font-size:clamp(15px,2.3vw,30px);white-space:nowrap;
+  text-shadow:0 2px 0 rgba(0,0,0,.45),0 0 8px rgba(0,0,0,.3);opacity:0;
+  animation:fxfloat 1.7s cubic-bezier(.2,.7,.3,1) forwards;}
+.fx-lvl{color:#ff5c52;} .fx-bits{color:#ffd23f;}
+@keyframes fxfloat{0%{opacity:0;transform:translate(-50%,10px) scale(.7)}
+  15%{opacity:1;transform:translate(-50%,-6px) scale(1.12)}
+  30%{transform:translate(-50%,-14px) scale(1)}
+  100%{opacity:0;transform:translate(-50%,-95px) scale(1)}}
+
+/* hover labels */
+.plabel{position:absolute;transform:translateX(-50%);z-index:9;background:rgba(255,253,246,.95);
+  border:2px solid var(--stroke);border-radius:10px;padding:4px 10px;font-weight:800;font-size:.8em;white-space:nowrap;
+  box-shadow:0 3px 0 var(--shadow);opacity:0;pointer-events:none;transition:opacity .16s;}
+.lbl-cal{left:21%;top:19%;} .lbl-vend{left:50%;top:26%;} .lbl-alarm{left:83%;top:7%;}
+.cal:hover ~ .lbl-cal,.vend:hover ~ .lbl-vend,.alarm:hover ~ .lbl-alarm{opacity:1;}
+
+@keyframes wiggle{0%,100%{transform:rotate(0)}25%{transform:rotate(-1.4deg)}75%{transform:rotate(1.4deg)}}
+
+/* three-column stage fills the viewport height: the room is sized by height (keeping
+   its 3:2 aspect), the two side panels stretch to the same height. */
+.stage{flex:1 1 auto;min-height:0;display:flex;gap:14px;justify-content:center;align-items:stretch;}
+.gear-side{flex:0 0 clamp(150px,15vw,240px);}
+.shelf-side{flex:0 0 clamp(190px,19vw,300px);}
+.stage .room{flex:0 1 auto;width:auto;height:100%;max-width:100%;}
+@media(max-width:820px){
+  body{height:auto;overflow:auto;}
+  html,body{height:auto;}
+  .wrap{height:auto;min-height:0;}
+  .stage{flex-direction:column;align-items:stretch;}
+  .stage .room{width:100%;height:auto;}
+  .gear-side,.shelf-side{flex:0 0 auto;}
+  .room{order:1;}.gear-side{order:2;}.shelf-side{order:3;}
+  .side{height:auto;}}

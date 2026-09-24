@@ -39,9 +39,16 @@ season length, and the game balances leveling and collecting to finish together.
 ```
 index.html      title / landing screen (the front door)
 game.html       the game screen
-src/
-  game.js       all game logic and content (bobbleheads, config, engine, UI)
-  game.css      styles
+src/             game logic + styles, split by concern (plain scripts, no build step)
+  data.js        static tables: level ladder, bobbleheads, gear flavor, sprite URLs
+  state.js       the S object, localStorage persistence, season-config math
+  economy.js     bits/day income, box prices, number formatters
+  scene.js       renders S into the room + HUD + shelf + gear panel
+  features.js    to-do wall, seasons, fortune cookie, fridge magnets, cards
+  boss.js        Defect Dragon fight, party mode, new-season reset
+  modals.js      log / buy / defect dialogs + settings sync; open()/close()
+  boot.js        loaded last: first render + wires every prop and button
+  base/room/panels/modals/boss/features.css   styles, linked in that cascade order
 assets/         pixel art: backgrounds, characters, props, bobbleheads
 docs/
   DESIGN.md     design notes

@@ -1,0 +1,72 @@
+/* Styles for the side features that live in modals: the shared textarea, the
+   post-mortem prompt, the team idea wall + post-mortem log rows, the fridge-magnet
+   achievement badges + unlock toast, and the season recap cards. */
+
+/* shared textarea (post-mortem + idea wall) */
+.sheet textarea{width:100%;font-family:var(--head);font-weight:600;font-size:.95em;padding:10px;
+  border:3px solid var(--stroke);border-radius:12px;resize:vertical;background:#fff;color:var(--ink);}
+
+/* ---------- post-mortem prompt ---------- */
+.pm-q{font-family:var(--disp);font-weight:700;font-size:1.08em;color:var(--purple);margin:8px 4px 8px;line-height:1.3;}
+
+/* ---------- idea wall ---------- */
+.ideasheet{max-width:440px;}
+.idea-add{display:flex;gap:8px;align-items:stretch;margin:4px 0 12px;}
+.idea-add textarea{flex:1;}
+.idea-add .btn{flex:0 0 auto;align-self:stretch;}
+.idea-list{text-align:left;max-height:46vh;overflow-y:auto;display:flex;flex-direction:column;gap:8px;}
+/* inside the settings sheet the .dev-body already scrolls; let the questions list flow into that
+   single scroll instead of nesting its own scrollbar */
+.dev-body .idea-list{max-height:none;overflow-y:visible;}
+.idea-empty{color:#8a7d93;font-weight:700;font-size:.88em;text-align:center;margin:16px 8px;line-height:1.35;}
+.idea-row{display:flex;gap:9px;align-items:flex-start;background:#fbf3e2;border:2px solid #e2d4bd;border-radius:12px;padding:9px 10px;}
+.idea-row.done{opacity:.6;}
+.idea-row.done .idea-text{text-decoration:line-through;}
+.idea-check{flex:0 0 auto;width:26px;height:26px;border:2px solid var(--stroke);border-radius:8px;background:#fff;
+  cursor:pointer;font-weight:800;color:var(--green);font-size:.9em;line-height:1;box-shadow:0 2px 0 var(--shadow);}
+.idea-row.done .idea-check{background:var(--green);color:#fff;}
+.idea-body{flex:1;min-width:0;}
+.idea-text{margin:0 0 2px;font-weight:700;font-size:.92em;line-height:1.3;word-break:break-word;}
+.idea-meta{color:#8a7d93;font-weight:700;font-size:.7em;text-transform:uppercase;letter-spacing:.03em;}
+.idea-del{flex:0 0 auto;background:none;border:none;color:#b9a684;cursor:pointer;font-weight:800;font-size:1em;padding:2px 4px;}
+.idea-del:hover{color:var(--red);}
+/* post-mortem log rows (read-only, no check/delete) */
+.pm-row{background:#fbf3e2;border:2px solid #e2d4bd;border-left:4px solid var(--red);border-radius:12px;padding:9px 11px;}
+.pm-row .idea-text{font-style:italic;}
+
+/* ---------- fridge magnets (achievement badges) ---------- */
+.magsheet{max-width:440px;}
+.badge-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:11px;text-align:left;max-height:52vh;overflow-y:auto;padding:4px 2px;margin:6px 0 4px;}
+.badge{position:relative;background:linear-gradient(#fff7e6,#ffe6b8);border:3px solid var(--stroke);border-radius:14px;
+  padding:12px 9px 10px;box-shadow:0 4px 0 var(--shadow);display:flex;flex-direction:column;align-items:center;text-align:center;gap:3px;
+  transition:transform .12s;}
+.badge:nth-child(odd){transform:rotate(-1.6deg);}
+.badge:nth-child(even){transform:rotate(1.6deg);}
+.badge:hover{transform:rotate(0) scale(1.03);}
+.badge.locked{background:linear-gradient(#efece4,#e2dccf);border-color:#b6aa93;box-shadow:0 4px 0 rgba(0,0,0,.14);}
+.badge-ic{font-size:1.7em;line-height:1;filter:drop-shadow(0 2px 1px rgba(0,0,0,.2));}
+.badge.locked .badge-ic{filter:none;opacity:.55;}
+.badge-name{font-family:var(--disp);font-weight:700;font-size:.9em;color:var(--ink);line-height:1.15;}
+.badge-desc{font-weight:600;font-size:.72em;color:#7a6d86;line-height:1.25;}
+.badge.locked .badge-name{color:#8a7d93;}
+.badge-date{font-weight:800;font-size:.66em;color:var(--green);margin-top:2px;}
+.badge-toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);z-index:120;
+  display:flex;align-items:center;gap:11px;background:var(--card);border:3px solid var(--stroke);border-radius:16px;
+  padding:11px 16px;box-shadow:0 6px 0 var(--shadow);font-weight:700;color:var(--ink);opacity:0;
+  transition:opacity .3s,transform .3s;max-width:88vw;}
+.badge-toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+.badge-toast-ic{font-size:1.6em;line-height:1;}
+.badge-toast b{font-family:var(--disp);}
+
+/* ---------- season recap cards ---------- */
+.season-list{text-align:left;max-height:52vh;overflow-y:auto;display:flex;flex-direction:column;gap:10px;}
+.season-card{background:#fbf3e2;border:2px solid #e2d4bd;border-radius:14px;padding:11px 12px;}
+.season-card.won{border-color:var(--gold);background:radial-gradient(circle at 50% 0%,#fff6df,#f7ecd0);}
+.season-top{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:7px;flex-wrap:wrap;}
+.season-n{font-family:var(--disp);font-weight:700;font-size:1.05em;}
+.season-date{color:#8a7d93;font-weight:700;font-size:.72em;}
+.season-sub{color:#8a7d93;font-weight:700;font-size:.74em;margin:-3px 0 7px;}
+.season-stats{display:flex;flex-wrap:wrap;gap:6px 12px;font-weight:800;font-size:.8em;color:#5c4b3a;}
+.season-notes{margin-top:9px;border-top:2px dashed #e2d4bd;padding-top:7px;}
+.season-notes b{font-size:.72em;text-transform:uppercase;letter-spacing:.04em;color:#8a7d93;}
+.season-notes p{margin:4px 0 0;font-weight:700;font-style:italic;font-size:.84em;color:#5c4b3a;line-height:1.3;}

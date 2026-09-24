@@ -5,7 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Days Since Defect</title>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Fredoka:wght@600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="src/game.css?v=65">
+<!-- Styles split by concern; keep this cascade order (base -> room -> panels -> modals -> boss -> features). -->
+<link rel="stylesheet" href="src/base.css?v=66">
+<link rel="stylesheet" href="src/room.css?v=66">
+<link rel="stylesheet" href="src/panels.css?v=66">
+<link rel="stylesheet" href="src/modals.css?v=66">
+<link rel="stylesheet" href="src/boss.css?v=66">
+<link rel="stylesheet" href="src/features.css?v=66">
 </head>
 <body>
 <div class="wrap">
@@ -272,6 +278,15 @@
   <div class="row-btn"><button class="btn" id="devClose">Close</button></div>
 </div></div>
 
-<script src="src/game.js?v=65"></script>
+<!-- Game logic split by concern; plain scripts sharing one global scope. Load boot.js last:
+     it wires every prop + button on DOMContentLoaded and depends on all the others. -->
+<script src="src/data.js?v=66"></script>
+<script src="src/state.js?v=66"></script>
+<script src="src/economy.js?v=66"></script>
+<script src="src/scene.js?v=66"></script>
+<script src="src/features.js?v=66"></script>
+<script src="src/boss.js?v=66"></script>
+<script src="src/modals.js?v=66"></script>
+<script src="src/boot.js?v=66"></script>
 </body>
 </html>
