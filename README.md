@@ -11,13 +11,13 @@ localStorage, so the whole thing zips up and runs from a folder.
 
 ## Run it
 
-Open `home.html` in a browser, or serve the folder:
+Open `index.html` in a browser, or serve the folder:
 
 ```
 python3 -m http.server 8099
 ```
 
-then visit `http://localhost:8099/home.html`.
+then visit `http://localhost:8099/`.
 
 ## The room
 
@@ -34,9 +34,22 @@ Facilitators can tune the season length and difficulty, and edit the question ba
 the settings (⚙) panel: set your sprint length, average points per sprint, and desired
 season length, and the game balances leveling and collecting to finish together.
 
-## Files
+## Layout
 
-- `home.html`: title screen
-- `game.html` / `game.css` / `game.js`: the game
-- `assets/`: pixel art (backgrounds, characters, props, bobbleheads)
-- `screwup-game-spec-*.md`, `DESIGN.md`: design notes and history
+```
+index.html      title / landing screen (the front door)
+game.html       the game screen
+src/
+  game.js       all game logic and content (bobbleheads, config, engine, UI)
+  game.css      styles
+assets/         pixel art: backgrounds, characters, props, bobbleheads
+docs/
+  DESIGN.md     design notes
+  reference.png original style reference
+  specs/        historical specs and content drafts
+archive/        earlier prototypes and dev-only review pages (kept for history,
+                not part of the live game; internal links may be stale)
+```
+
+The whole game is `index.html` + `game.html` + `src/`. Nothing in `archive/`,
+`docs/`, or the `*-backup*/` folders is loaded at runtime.

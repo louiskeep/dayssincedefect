@@ -27,7 +27,7 @@ const BOB = [
   ["The Sales Shark","+8 Charisma","Just circling back to circle back on the circle back."],
   ["The IT Guy","+7 Uptime","The ticket says 'urgent.' They all say 'urgent.'"],
   ["The HR Rep","+6 Diplomacy","This is a safe space. Also, this is being recorded."],
-  ["The CEO","+10 Vision","We're not downsizing, we're right-sizing the family."],
+  ["The CEO","+10 Vision","My door is always open. My calendar, never."],
   ["The Accountant","+9 Precision","I found the missing cent. It cost us four hours."],
   ["The Creative","+7 Aesthetic","Can we make the logo bigger, but also smaller?"],
   ["The Coffee Fiend","+12 Alertness","I can hear colors now. Deploy on Friday, sure."],
@@ -320,7 +320,7 @@ function bossDefeat(){
   setTimeout(()=>{document.getElementById("bossWin").hidden=false;confetti();},650);
 }
 function celebrate(){try{localStorage.setItem("dsls_won","1");}catch(e){}
-  location.href="home.html?party=1&t="+Date.now();}   /* query = signal + cache-bust */
+  location.href="index.html?party=1&t="+Date.now();}   /* query = signal + cache-bust */
 function newSeason(){
   /* bank a recap for the season that just ended (skip an empty one that saw no activity) */
   const hadActivity=(S.sprintsLogged||0)>0||ownedCount()>0||S.screwups>0;

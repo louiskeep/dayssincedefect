@@ -1,88 +1,113 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Days Since Last Incident</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Days Since Defect</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#3a2b45;--card:#fffdf6;--stroke:#1c1524;--shadow:rgba(0,0,0,.4);
+    --green:#37c06a;--purple:#9b6cff;--blue:#2f9bff;
+    --disp:"Fredoka",system-ui,sans-serif;--head:"Baloo 2",system-ui,sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;height:100%;font-family:var(--head);color:#fff;}
+  body{
+    height:100vh;overflow:hidden;
+    background:#14101c url("assets/home-bg.png") center/cover no-repeat;
+    display:flex;flex-direction:column;align-items:center;
+  }
+  /* subtle dark scrim in the center so the title + buttons stay readable over the art */
+  body::before{content:"";position:fixed;inset:0;pointer-events:none;
+    background:radial-gradient(60% 55% at 50% 34%, rgba(10,8,16,.55), rgba(10,8,16,0) 70%);}
+
+  .overlay{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;
+    text-align:center;padding-top:clamp(14px,4vh,54px);gap:clamp(10px,2vh,20px);width:100%;}
+
+  .kick{font-weight:800;letter-spacing:.24em;text-transform:uppercase;font-size:clamp(.6rem,1.4vw,.82rem);
+    color:#ffd9a8;text-shadow:0 2px 4px rgba(0,0,0,.7);}
+  .logo{width:min(46vw,440px);height:auto;display:block;
+    filter:drop-shadow(0 6px 14px rgba(0,0,0,.55));}
+  .tagline{font-weight:700;color:#f4e9d6;font-size:clamp(.85rem,1.9vw,1.12rem);max-width:min(620px,80vw);
+    text-shadow:0 2px 6px rgba(0,0,0,.85);line-height:1.3;}
+
+  .actions{display:flex;flex-direction:column;align-items:center;gap:12px;margin-top:clamp(4px,1.5vh,14px);}
+  .play{font-family:var(--disp);font-weight:700;font-size:clamp(1.3rem,3vw,1.75rem);text-transform:uppercase;
+    letter-spacing:.04em;color:#fff;background:linear-gradient(#48d47b,#2fae5f);
+    border:4px solid var(--stroke);border-radius:20px;padding:clamp(12px,1.7vh,17px) clamp(40px,6vw,60px);
+    box-shadow:0 7px 0 var(--shadow),0 14px 30px rgba(0,0,0,.5);cursor:pointer;text-decoration:none;
+    display:inline-flex;align-items:center;gap:12px;transition:transform .06s;}
+  .play:active{transform:translateY(6px);box-shadow:0 1px 0 var(--shadow);}
+  .subrow{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;}
+  .sbtn{font-family:var(--head);font-weight:800;font-size:clamp(.82rem,1.7vw,.98rem);color:#2a2233;
+    background:rgba(255,253,246,.94);border:3px solid var(--stroke);border-radius:14px;
+    padding:9px 20px;box-shadow:0 4px 0 var(--shadow);cursor:pointer;text-decoration:none;}
+  .sbtn:active{transform:translateY(4px);box-shadow:0 1px 0 var(--shadow);}
+
+  .foot{position:fixed;left:0;right:0;bottom:10px;z-index:2;text-align:center;
+    color:#e6d8c4;font-weight:700;font-size:clamp(.66rem,1.4vw,.8rem);opacity:.9;
+    text-shadow:0 2px 5px rgba(0,0,0,.9);}
+
+  /* how-to modal */
+  .modal{position:fixed;inset:0;background:rgba(10,8,16,.7);display:none;align-items:center;justify-content:center;
+    z-index:40;padding:20px;}
+  .modal.open{display:flex;}
+  .sheet{width:100%;max-width:460px;background:var(--card);color:var(--ink);border:4px solid var(--stroke);border-radius:24px;
+    box-shadow:0 12px 0 var(--shadow);padding:22px 22px 18px;animation:pop .26s ease;}
+  @keyframes pop{from{transform:scale(.9);opacity:0}to{transform:scale(1);opacity:1}}
+  .sheet h2{margin:0 0 12px;font-family:var(--disp);font-size:1.5rem;}
+  .step{display:flex;gap:12px;align-items:flex-start;margin:0 0 12px;}
+  .step .ic{flex:0 0 auto;width:38px;height:38px;border-radius:11px;border:3px solid var(--stroke);
+    display:flex;align-items:center;justify-content:center;font-size:1.1rem;box-shadow:0 3px 0 var(--shadow);}
+  .step .ic.cal{background:#ffe6c2;}.step .ic.vend{background:#cfefff;}.step .ic.al{background:#ffd7d3;}
+  .step .ic.drg{background:#e9dcff;}
+  .step p{margin:0;font-weight:600;line-height:1.3;font-size:.95rem;}
+  .step p b{font-weight:800;}
+  .sheet .sbtn{margin-top:4px;width:100%;background:var(--card);}
+</style>
 </head>
 <body>
-  <div class="wrap">
-
-    <!-- The Board -->
-    <div class="board">
-      <div class="board-inner">
-        <div class="days" id="days">0<small>days since last incident</small></div>
-        <div class="stats">
-          <div class="team-name" id="teamName">The Data Team</div>
-          <div class="bank" id="bank">0<span class="unit"> b</span></div>
-          <div class="rate" id="rate">earning 1 b/day</div>
-          <div class="best" id="best">best streak: 0 days</div>
-        </div>
+  <div class="overlay">
+    <div class="kick">The team standup game</div>
+    <img class="logo" src="assets/logo.png" alt="Days Since Defect">
+    <div class="tagline">Ship clean, level up, collect the whole office. Break one build and it all starts over.</div>
+    <div class="actions">
+      <a class="play" href="game.html"><span>▶</span> Play</a>
+      <div class="subrow">
+        <button class="sbtn" onclick="document.getElementById('how').classList.add('open')">How it works</button>
+        <a class="sbtn" href="game.html">The collection</a>
       </div>
     </div>
-
-    <!-- Toolbar -->
-    <div class="toolbar">
-      <button class="btn primary" id="openStore">🛍️ Store</button>
-      <button class="btn" id="openDecorate">🎨 Decorate</button>
-      <button class="btn" id="openSettings">⚙️ Settings</button>
-      <button class="btn danger" id="openIncident" style="margin-left:auto">🚨 Report an incident</button>
-    </div>
-
-    <!-- The Shelf (diorama) -->
-    <div class="shelf-frame">
-      <div class="shelf bd-plain" id="shelf">
-        <div class="shelf-hint">drag anyone around · tap a character to dress them up</div>
-      </div>
-    </div>
-
   </div>
 
-  <!-- Decorate bar (slide-up) -->
-  <div class="decorate-bar" id="decorateBar">
-    <div class="deco-section">
-      <span class="deco-label">Background</span>
-      <div class="bg-row" id="bgRow"></div>
+  <div class="foot">A zippable, offline browser game. No install, no server. Just don't break the build.</div>
+
+  <!-- how it works -->
+  <div class="modal" id="how" onclick="if(event.target.id==='how')this.classList.remove('open')">
+    <div class="sheet">
+      <h2>How it works</h2>
+      <div class="step"><div class="ic cal">📅</div><p><b>Log a sprint</b> at each retro. Sprint points level you up, office coder all the way to office technomancer.</p></div>
+      <div class="step"><div class="ic vend">🥤</div><p><b>Bits</b> pile up on their own while the build stays green. Feed them to the <b>vending machine</b> to pop a random office bobblehead onto your shelf, all 24 to collect.</p></div>
+      <div class="step"><div class="ic al">🚨</div><p><b>Break something?</b> Pull the fire alarm. The days-since counter resets, you drop a level, and lose a chunk of bits. It happens.</p></div>
+      <div class="step"><div class="ic drg">🐉</div><p>Hit max level with all 24 bobbleheads, then take the whole collection to the <b>Defect Dragon</b> to win the season.</p></div>
+      <button class="sbtn" onclick="document.getElementById('how').classList.remove('open')">Got it</button>
     </div>
-    <div class="deco-section grow">
-      <span class="deco-label">Drag onto the shelf · double-click a placed item to remove</span>
-      <div class="deco-tray" id="decoTray"></div>
-    </div>
-    <button class="btn primary" id="closeDecorate">Done</button>
   </div>
 
-  <!-- Store panel -->
-  <div class="scrim" id="scrim"></div>
-  <aside class="panel" id="store">
-    <header>
-      <h2>Store</h2>
-      <span class="bal" id="storeBal">0 b</span>
-      <button class="btn ghost" id="closeStore">✕</button>
-    </header>
-    <div class="tabs">
-      <button class="tab active" data-tab="characters">Characters</button>
-      <button class="tab" data-tab="cosmetics">Outfits</button>
-      <button class="tab" data-tab="activities">Activities</button>
-      <button class="tab" data-tab="decorations">Decorations</button>
-    </div>
-    <div class="store-body" id="storeBody"></div>
-  </aside>
-
-  <!-- Modals -->
-  <div class="modal" id="dressModal"><div class="box" id="dressBox"></div></div>
-  <div class="modal" id="incidentModal"><div class="box" id="incidentBox"></div></div>
-  <div class="modal" id="settingsModal"><div class="box" id="settingsBox"></div></div>
-  <div class="modal" id="confirmModal"><div class="box" id="confirmBox"></div></div>
-
-  <!-- Toast -->
-  <div class="toast" id="toast"></div>
-
-  <script src="catalog.js"></script>
-  <script src="art.js"></script>
-  <script src="game.js"></script>
+  <script>
+    /* after beating the Defect Dragon, the title screen becomes a break-room party */
+    (function(){
+      var won=false;
+      try{won = localStorage.getItem('dsls_won')==='1';}catch(e){}
+      if(new URLSearchParams(location.search).has('party')){won=true; try{localStorage.setItem('dsls_won','1');}catch(e){}}
+      if(won){
+        document.body.style.backgroundImage="url('assets/home-party.png?v=1')";
+        var k=document.querySelector('.kick'), t=document.querySelector('.tagline');
+        if(k)k.textContent="Season complete";
+        if(t)t.textContent="You beat the Defect Dragon. The whole office is celebrating.";
+      }
+    })();
+  </script>
 </body>
 </html>

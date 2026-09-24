@@ -65,7 +65,7 @@ a{color:inherit;}
 
 /* break room scene */
 .room{position:relative;width:100%;aspect-ratio:3/2;border:3px solid var(--stroke);border-radius:18px;overflow:hidden;
-  box-shadow:0 6px 0 var(--shadow);background:#f6ece0 url("assets/breakroom-7.png") center/cover no-repeat;}
+  box-shadow:0 6px 0 var(--shadow);background:#f6ece0 url("../assets/breakroom-7.png") center/cover no-repeat;}
 
 /* Every interactive prop is a bounding box: left/top/width/height are set from PROP_POS in JS
    (one place), and the sprite fits inside via object-fit so it never distorts. */
@@ -295,12 +295,12 @@ a{color:inherit;}
 .boss-win[hidden]{display:none!important;}
 
 /* party mode: the break room after beating the dragon */
-.room.party{background-image:url("assets/breakroom-party.png");}
+.room.party{background-image:url("../assets/breakroom-party.png");}
 .room.party .cal,.room.party .vend,.room.party .alarm,.room.party .plabel,.room.party .redwash,.room.party .duck{display:none!important;}
 .bossbtn.won{background:linear-gradient(#48d47b,#2fae5f);box-shadow:0 6px 0 var(--shadow),0 0 26px rgba(55,200,120,.7);
   animation:bosspulse 1.4s ease-in-out infinite;}
 /* battle arena background image behind the fight */
-.arena{background:linear-gradient(rgba(10,6,14,.38),rgba(10,6,14,.5)), url("assets/arena-bg.png") center/cover no-repeat, #0c0710;}
+.arena{background:linear-gradient(rgba(10,6,14,.38),rgba(10,6,14,.5)), url("../assets/arena-bg.png") center/cover no-repeat, #0c0710;}
 
 /* ---------- fortune cookie prop (on the left counter); position from PROP_POS ---------- */
 .cookie{transform-origin:bottom center;z-index:7;}

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Days Since Last Incident</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="wrap">
+
+    <!-- The Board -->
+    <div class="board">
+      <div class="board-inner">
+        <div class="days" id="days">0<small>days since last incident</small></div>
+        <div class="stats">
+          <div class="team-name" id="teamName">The Data Team</div>
+          <div class="bank" id="bank">0<span class="unit"> b</span></div>
+          <div class="rate" id="rate">earning 1 b/day</div>
+          <div class="best" id="best">best streak: 0 days</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toolbar -->
+    <div class="toolbar">
+      <button class="btn primary" id="openStore">🛍️ Store</button>
+      <button class="btn" id="openDecorate">🎨 Decorate</button>
+      <button class="btn" id="openSettings">⚙️ Settings</button>
+      <button class="btn danger" id="openIncident" style="margin-left:auto">🚨 Report an incident</button>
+    </div>
+
+    <!-- The Shelf (diorama) -->
+    <div class="shelf-frame">
+      <div class="shelf bd-plain" id="shelf">
+        <div class="shelf-hint">drag anyone around · tap a character to dress them up</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Decorate bar (slide-up) -->
+  <div class="decorate-bar" id="decorateBar">
+    <div class="deco-section">
+      <span class="deco-label">Background</span>
+      <div class="bg-row" id="bgRow"></div>
+    </div>
+    <div class="deco-section grow">
+      <span class="deco-label">Drag onto the shelf · double-click a placed item to remove</span>
+      <div class="deco-tray" id="decoTray"></div>
+    </div>
+    <button class="btn primary" id="closeDecorate">Done</button>
+  </div>
+
+  <!-- Store panel -->
+  <div class="scrim" id="scrim"></div>
+  <aside class="panel" id="store">
+    <header>
+      <h2>Store</h2>
+      <span class="bal" id="storeBal">0 b</span>
+      <button class="btn ghost" id="closeStore">✕</button>
+    </header>
+    <div class="tabs">
+      <button class="tab active" data-tab="characters">Characters</button>
+      <button class="tab" data-tab="cosmetics">Outfits</button>
+      <button class="tab" data-tab="activities">Activities</button>
+      <button class="tab" data-tab="decorations">Decorations</button>
+    </div>
+    <div class="store-body" id="storeBody"></div>
+  </aside>
+
+  <!-- Modals -->
+  <div class="modal" id="dressModal"><div class="box" id="dressBox"></div></div>
+  <div class="modal" id="incidentModal"><div class="box" id="incidentBox"></div></div>
+  <div class="modal" id="settingsModal"><div class="box" id="settingsBox"></div></div>
+  <div class="modal" id="confirmModal"><div class="box" id="confirmBox"></div></div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+  <script src="catalog.js"></script>
+  <script src="art.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>
