@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cartography Club</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Fredoka:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="src/base.css">
+<link rel="stylesheet" href="src/room.css">
+<link rel="stylesheet" href="src/panels.css">
+<link rel="stylesheet" href="src/modals.css">
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hbar">
+    <div class="seg seg-days">
+      <span class="seg-ic">🧭</span>
+      <div class="seg-body">
+        <div class="seg-lbl">Clean streak</div>
+        <div class="seg-val" id="count">—</div>
+      </div>
+      <div class="seg-sub" id="rec">best 0d · 0 defects</div>
+    </div>
+
+    <div class="seg seg-lv">
+      <span class="seg-ic">🌀</span>
+      <div class="seg-lvwrap">
+        <div class="lvline"><span class="lv2">Jump <span id="jumphud">0/12</span></span></div>
+        <div class="bar"><i id="jumpbar"></i></div>
+      </div>
+    </div>
+
+    <div class="seg seg-bits">
+      <span class="coin" aria-hidden="true"></span>
+      <div class="seg-body">
+        <div class="seg-lbl">Bits</div>
+        <div class="seg-val" id="bits">0</div>
+      </div>
+      <div class="seg-sub">+<span id="rate">0</span>/day</div>
+    </div>
+
+    <div class="seg seg-right">
+      <span class="chip">🗿 <b id="col">0/24</b></span>
+      <button class="hbtn" id="helpBtn" title="How to play">?</button>
+      <a class="hbtn" href="index.html" title="Home">⌂</a>
+      <button class="hbtn" id="settingsBtn" title="Settings">⚙</button>
+    </div>
+  </header>
+
+  <div class="stage">
+
+    <aside class="side">
+      <h3>🗿 Artifacts</h3>
+      <p class="sub"><span id="colsub"></span></p>
+      <div class="shelf" id="shelf"></div>
+    </aside>
+
+    <div class="room" id="room">
+      <div class="biome-count" id="biomeCount">Jump 0 of 12</div>
+      <div class="biome-name" id="biomeName"></div>
+      <div class="biome-flavor" id="biomeFlavor"></div>
+      <div class="propbar">
+        <button class="btn green" id="logBtn">📅 Log a sprint</button>
+        <button class="btn purple" id="retrieveBtn">🗿 Retrieve Artifact</button>
+        <button class="btn red" id="defectBtn">🚨 Report a defect</button>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<button id="finaleBtn" class="bossbtn" hidden>Seal the Loop (The Temporal Paradox)</button>
+
+<!-- finale -->
+<div class="modal" id="finaleModal"><div class="sheet">
+  <h2>🌀 The Temporal Paradox</h2>
+  <div class="bar" style="height:16px;"><i id="paradoxHp" style="width:100%;background:linear-gradient(90deg,#ff8a52,#ff5c52);"></i></div>
+  <button class="btn red" id="finaleAttack" style="margin-top:14px;">Throw an artifact</button>
+  <div class="boss-win" id="finaleWin" hidden>
+    <div class="win-title">The loop is sealed!</div>
+    <p>The timestream holds. Ship in peace.</p>
+    <div class="row-btn"><button class="btn green" id="finaleNewSeason">Start a new season</button></div>
+  </div>
+  <div class="row-btn"><button class="btn ghost" id="finaleClose">Close</button></div>
+</div></div>
+
+<!-- Log sprint -->
+<div class="modal" id="logModal"><div class="sheet">
+  <h2>📅 Log a sprint</h2>
+  <p>Drop in the sprint points the team earned this retro. Points charge the Jumper Machine.</p>
+  <div class="numrow"><input type="number" id="ptInput" value="20" min="1" max="999"></div>
+  <p class="lbl" id="logNeed"></p>
+  <div class="row-btn"><button class="btn" id="logCancel">Cancel</button>
+    <button class="btn green" id="logGo">Log it</button></div>
+</div></div>
+
+<!-- Defect -->
+<div class="modal" id="defectModal"><div class="sheet">
+  <h2>🚨 Report a defect</h2>
+  <p>Something shipped broken. This resets the clean streak and applies the defect penalty. Your artifacts stay safe.</p>
+  <p class="lbl" id="defectLose"></p>
+  <div class="row-btn"><button class="btn" id="defectCancel">False alarm</button>
+    <button class="btn red" id="defectGo">Yep, we broke it</button></div>
+</div></div>
+
+<!-- post-mortem -->
+<div class="modal" id="pmModal"><div class="sheet">
+  <h2>🩹 Quick post-mortem</h2>
+  <p class="pm-q" id="pmQ"></p>
+  <textarea id="pmNote" rows="3" placeholder="Jot the cause or the lesson (optional)."></textarea>
+  <div class="row-btn"><button class="btn ghost" id="pmSkip">Skip</button>
+    <button class="btn red" id="pmGo">Log it &amp; take the hit</button></div>
+</div></div>
+
+<!-- generic card (jump reveal / artifact reveal) -->
+<div class="modal" id="cardModal"><div class="cardbox" id="cardBox"></div></div>
+
+<!-- how to play -->
+<div class="modal" id="helpModal"><div class="sheet">
+  <h2>How to play</h2>
+  <div class="howto">
+    <p><b>📅 Log a sprint.</b> Type the team's sprint points. Enough charge jumps the Jumper Machine to the next mythical era.</p>
+    <p><b>🗿 Retrieve an artifact.</b> Bits pile up each clean day. Spend them to pull one of 24 artifacts from across time.</p>
+    <p><b>🚨 Own your defects.</b> Something broke? Report it, answer one quick post-mortem question, lose some charge and bits, streak resets.</p>
+    <p><b>🌀 Seal the loop.</b> Reach jump 12 with all 24 artifacts to face the Temporal Paradox and end the season.</p>
+  </div>
+  <div class="row-btn"><button class="btn" id="helpClose">Got it</button></div>
+</div></div>
+
+<!-- settings -->
+<div class="modal" id="settingsModal"><div class="sheet">
+  <h2>⚙ Settings</h2>
+  <p class="dp-intro">Set your team's cadence. The game tunes jumps and artifacts to both finish on the season.</p>
+  <label class="dprow"><span>Sprint length (weeks)</span> <input type="number" id="sprintWeeks" min="1" max="8" step="1"></label>
+  <label class="dprow"><span>Avg points per sprint</span> <input type="number" id="avgPoints" min="1" max="999"></label>
+  <label class="dprow"><span>Season length (sprints)</span> <input type="number" id="seasonSprints" min="2" max="52" step="1"></label>
+  <div class="row-btn"><button class="btn" id="settingsClose">Close</button></div>
+</div></div>
+
+<script src="src/data.js"></script>
+<script src="src/state.js"></script>
+<script src="src/economy.js"></script>
+<script src="src/machine.js"></script>
+<script src="src/scene.js"></script>
+<script src="src/modals.js"></script>
+<script src="src/boot.js"></script>
+</body>
+</html>

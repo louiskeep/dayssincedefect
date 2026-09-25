@@ -1,0 +1,68 @@
+/* Days Since Defect styles are split by concern across src/*.css, linked in
+   cascade order from game.html: base -> room -> panels -> modals -> boss ->
+   features. This file holds the design tokens, the reset, the page shell, and
+   the status header bar (game HUD).
+
+   Actions are props IN the scene: calendar = log sprint, vending machine = buy a
+   box, fire alarm = report a defect. Each animates on hover; click opens its dialog. */
+:root{
+  --ink:#3a2b45;--card:#fffdf6;--stroke:#3a2b45;--shadow:rgba(58,43,69,.22);
+  --blue:#2f9bff;--green:#37c06a;--red:#ff5c52;--amber:#ffb02e;--purple:#9b6cff;
+  --wood:#b9793d;--wood-d:#7d4d1f;--gold:#e8b53f;
+  --disp:"Fredoka",system-ui,sans-serif;--head:"Baloo 2",system-ui,sans-serif;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;height:100%;font-family:var(--head);color:var(--ink);
+  background:linear-gradient(160deg,#bfe6ff,#e8f4ff 34%,#ffe6c2);}
+body{padding:22px;height:100vh;overflow:hidden;}
+@media(max-width:820px){body{padding:14px;}}
+.wrap{width:100%;height:100%;margin:0;display:flex;flex-direction:column;gap:10px;min-height:0;}
+a{color:inherit;}
+
+/* status header bar (game HUD) */
+.hbar{flex:0 0 auto;display:flex;align-items:stretch;background:var(--card);
+  border:3px solid var(--stroke);border-radius:16px;box-shadow:0 5px 0 var(--shadow);overflow:hidden;}
+.seg{display:flex;align-items:center;gap:11px;padding:9px 20px;border-right:2px solid #efe4d3;}
+.seg-ic{font-size:1.55rem;line-height:1;}
+/* CSS-drawn gold coin (renders identically on every browser, unlike the coin emoji) */
+.coin{width:26px;height:26px;border-radius:50%;flex:0 0 auto;position:relative;
+  background:radial-gradient(circle at 38% 32%,#ffe9a3,#f4bd3a 58%,#cf9016);
+  border:2px solid #a9740c;box-shadow:inset 0 -2px 0 rgba(0,0,0,.14);}
+.coin::after{content:"B";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  font-family:var(--disp);font-weight:700;font-size:.82rem;color:#8a5a06;}
+.seg-body{display:flex;flex-direction:column;}
+.seg-lbl{color:#8a7d93;font-size:.6rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase;}
+.seg-val{font-family:var(--disp);font-weight:700;line-height:1;}
+.seg-days .seg-val{font-size:1.75rem;color:var(--green);}
+.seg-bits .seg-val{font-size:1.5rem;color:var(--blue);}
+.seg-sub{color:#8a7d93;font-weight:800;font-size:.66rem;text-transform:uppercase;letter-spacing:.03em;align-self:flex-end;padding-bottom:3px;white-space:nowrap;}
+/* bobblehead bits bonus, shown inline on the +X/day box */
+.rate-mod{color:var(--green);}
+/* +10%-per-bobblehead note inside the Buy a box modal */
+.spin-bonus{color:var(--purple);font-weight:700;margin:-2px 0 10px;}
+/* level segment stretches to fill the middle, XP bar spans it */
+.seg-lv{flex:1 1 auto;min-width:0;}
+.seg-lvwrap{flex:1;min-width:0;}
+.lvline{display:flex;align-items:baseline;gap:10px;}
+.lv2{font-family:var(--disp);font-weight:700;font-size:1.35rem;color:var(--purple);line-height:1;white-space:nowrap;}
+.lvname{color:#8a7d93;font-weight:800;font-size:.68rem;text-transform:uppercase;letter-spacing:.03em;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.bar{height:11px;background:#efe6f7;border:2px solid var(--stroke);border-radius:8px;overflow:hidden;margin-top:6px;}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,#b98cff,#8a5cf0);width:0;transition:width .4s;}
+/* fortune cookie button in the header */
+.seg-cookie{padding:9px 16px;}
+.cookiebtn{width:42px;height:42px;padding:3px;border:2px solid var(--stroke);border-radius:12px;background:#fff3dc;
+  box-shadow:0 3px 0 var(--shadow);cursor:pointer;display:flex;align-items:center;justify-content:center;
+  transition:transform .12s;}
+.cookiebtn img{max-width:100%;max-height:100%;image-rendering:pixelated;}
+.cookiebtn:hover{transform:translateY(-2px) rotate(-5deg);}
+.cookiebtn:active{transform:translateY(2px);box-shadow:0 1px 0 var(--shadow);}
+
+.seg-right{margin-left:auto;gap:9px;border-right:none;}
+.chip{background:#fff3dc;border:2px solid var(--stroke);border-radius:999px;padding:6px 13px;font-weight:800;font-size:.82rem;
+  box-shadow:0 2px 0 var(--shadow);white-space:nowrap;}
+.chip b{color:var(--purple);}
+.hbtn{width:38px;height:38px;display:flex;align-items:center;justify-content:center;border:2px solid var(--stroke);
+  border-radius:11px;background:var(--card);box-shadow:0 3px 0 var(--shadow);font-size:1.15em;text-decoration:none;}
+.hbtn:active{transform:translateY(3px);box-shadow:0 0 0 var(--shadow);}
+@media(max-width:640px){.hbar{flex-wrap:wrap;}.seg-lv{flex-basis:100%;order:5;border-right:none;}}

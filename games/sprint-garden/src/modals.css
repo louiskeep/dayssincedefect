@@ -1,0 +1,48 @@
+/* Modal shells and the pop-ups they hold: the generic .modal/.sheet dialog, the
+   fortune-cookie modal, and the bobblehead/trophy card. */
+
+/* modals */
+.modal{position:fixed;inset:0;background:rgba(58,43,69,.55);display:none;align-items:center;justify-content:center;z-index:90;padding:20px;}
+.modal.open{display:flex;}
+.sheet{width:100%;max-width:390px;background:var(--card);border:4px solid var(--stroke);border-radius:24px;
+  box-shadow:0 12px 0 var(--shadow);padding:20px;text-align:center;animation:pop .26s ease;}
+@keyframes pop{from{transform:scale(.9);opacity:0}to{transform:scale(1);opacity:1}}
+.sheet h2{margin:0 0 6px;font-family:var(--disp);font-size:1.5em;}
+.sheet p{margin:6px 0;font-weight:600;line-height:1.35;}
+.sheet .row-btn{display:flex;gap:10px;justify-content:center;margin-top:14px;flex-wrap:wrap;}
+.numrow{display:flex;gap:8px;align-items:center;justify-content:center;margin:12px 0;}
+.howto{text-align:left;margin:6px 0 4px;}
+.howto p{margin:0 0 13px;font-weight:600;line-height:1.4;font-size:.94em;}
+.howto b{font-weight:800;}
+.numrow input{width:90px;font-family:var(--disp);font-size:1.3em;text-align:center;padding:6px;border:3px solid var(--stroke);border-radius:12px;}
+
+/* fortune cookie modal */
+.cookie-stage{position:relative;min-height:200px;display:flex;align-items:center;justify-content:center;margin:6px 0 4px;}
+.cookiebig{width:170px;height:auto;image-rendering:pixelated;cursor:pointer;filter:drop-shadow(0 5px 4px rgba(0,0,0,.28));
+  transition:transform .15s;}
+.cookiebig:hover{transform:scale(1.05) rotate(-3deg);}
+.cookiebig.cracking{animation:cookieShake .4s ease;}
+.cookiebig.broken{cursor:default;width:180px;}
+@keyframes cookieShake{0%,100%{transform:rotate(0)}20%{transform:rotate(-7deg)}40%{transform:rotate(6deg)}60%{transform:rotate(-4deg)}80%{transform:rotate(3deg)}}
+.fortune-slip{position:absolute;left:50%;bottom:-6px;transform:translateX(-50%);width:88%;max-width:330px;
+  background:#fffdf0;border:2px solid #d9c9a6;border-radius:6px;box-shadow:0 4px 10px rgba(0,0,0,.2);
+  padding:12px 16px;animation:slipIn .4s ease .12s both;}
+.fortune-slip::before,.fortune-slip::after{content:"";position:absolute;top:0;bottom:0;width:8px;
+  background:repeating-linear-gradient(#d9c9a6 0 3px,transparent 3px 6px);}
+.fortune-slip::before{left:0;} .fortune-slip::after{right:0;}
+.fortune-slip p{margin:0;font-weight:700;font-style:italic;color:#5c4b3a;line-height:1.35;font-size:.98em;}
+@keyframes slipIn{from{opacity:0;transform:translateX(-50%) translateY(10px);}to{opacity:1;transform:translateX(-50%) translateY(0);}}
+
+/* bobblehead / trophy card */
+.cardbox{width:100%;max-width:340px;background:var(--card);border:4px solid var(--stroke);border-radius:24px;
+  box-shadow:0 12px 0 var(--shadow);padding:0 0 18px;text-align:center;overflow:hidden;animation:pop .28s ease;}
+.card-head{background:linear-gradient(135deg,#9b6cff,#6a45c0);color:#fff;padding:14px 16px 12px;position:relative;}
+.card-head h3{margin:0;font-family:var(--disp);font-size:1.6em;line-height:1;}
+.card-no{position:absolute;top:10px;right:14px;font-weight:800;font-size:.72em;opacity:.85;}
+.card-art{background:radial-gradient(circle at 50% 40%,#fff6df,#f0e2c2);padding:8px 0 0;}
+.card-art img{width:64%;height:auto;filter:drop-shadow(0 4px 3px rgba(0,0,0,.25));}
+.card-skill{display:inline-block;margin:6px auto 4px;background:var(--green);color:#fff;font-weight:800;
+  border:3px solid var(--stroke);border-radius:999px;padding:6px 18px;font-family:var(--disp);font-size:1.05em;box-shadow:0 3px 0 var(--shadow);}
+.card-line{color:var(--ink);font-weight:700;font-style:italic;margin:10px 20px 14px;line-height:1.25;}
+.trophy-emoji{font-size:3.2em;margin:6px 0;animation:pop .4s ease;}
+.confetti{position:fixed;inset:0;pointer-events:none;z-index:95;}

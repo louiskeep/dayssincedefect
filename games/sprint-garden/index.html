@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sprint Garden</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#3a2b45;--card:#fffdf6;--stroke:#1c1524;--shadow:rgba(0,0,0,.4);
+    --green:#37c06a;--disp:"Fredoka",system-ui,sans-serif;--head:"Baloo 2",system-ui,sans-serif;}
+  *{box-sizing:border-box;}
+  html,body{margin:0;height:100%;font-family:var(--head);color:#fff;}
+  body{height:100vh;overflow:hidden;background:radial-gradient(120% 100% at 50% 0%,#3f7a3a,#1e3a1c);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px;}
+  .kick{font-weight:800;letter-spacing:.24em;text-transform:uppercase;font-size:.8rem;color:#d9f5c2;}
+  h1{font-family:var(--disp);font-size:clamp(2rem,6vw,3.2rem);margin:.3em 0;text-shadow:0 4px 10px rgba(0,0,0,.4);}
+  .tagline{font-weight:700;color:#eafbe0;max-width:520px;margin:0 auto 20px;line-height:1.35;}
+  .play{font-family:var(--disp);font-weight:700;font-size:1.4rem;text-transform:uppercase;color:#fff;
+    background:linear-gradient(#48d47b,#2fae5f);border:4px solid var(--stroke);border-radius:20px;
+    padding:14px 46px;box-shadow:0 7px 0 var(--shadow);cursor:pointer;text-decoration:none;display:inline-block;}
+  .play:active{transform:translateY(6px);box-shadow:0 1px 0 var(--shadow);}
+  .foot{margin-top:20px;color:#cfe8c2;font-weight:700;font-size:.8rem;}
+</style>
+</head>
+<body>
+  <div class="kick">A Days Since Defect game variant</div>
+  <h1>🌼 Sprint Garden</h1>
+  <p class="tagline">Log your sprint points to plant flowers. Tend the garden to grow trees. Own your defects and watch the pests come. Full Bloom ends the season.</p>
+  <a class="play" href="game.html">Play</a>
+  <div class="foot">A zippable, offline browser game. No install, no server.</div>
+</body>
+</html>

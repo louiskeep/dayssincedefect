@@ -1,0 +1,64 @@
+/* Side panels and the ⚙ settings sheet: the gear collection (left) and the
+   bobblehead shelf (right), plus the dev/settings popup, its tabs, the defect
+   punishment controls, and the shared .btn button. */
+
+.side{background:var(--card);border:3px solid var(--stroke);border-radius:18px;box-shadow:0 6px 0 var(--shadow);
+  padding:12px 12px 14px;display:flex;flex-direction:column;overflow:hidden;}
+.side h3{margin:0 0 1px;font-family:var(--disp);font-size:1.02em;flex:0 0 auto;}
+.side .sub{color:#8a7d93;font-weight:800;font-size:.78em;margin:0 0 10px;text-transform:uppercase;letter-spacing:.03em;flex:0 0 auto;}
+
+/* gear collection (left) — 2 columns of level-up items, rows fill the height */
+.gearshelf{display:grid;grid-template-columns:repeat(2,1fr);grid-auto-rows:1fr;gap:8px;flex:1 1 auto;min-height:0;}
+.gcell{position:relative;border-radius:12px;border:2px solid #e2d4bd;background:linear-gradient(#fbf3e2,#f2e6cf);
+  display:flex;align-items:center;justify-content:center;overflow:hidden;transition:transform .12s,box-shadow .12s;}
+.gcell.on{border-color:var(--stroke);background:radial-gradient(circle at 50% 38%,#fff7e6,#f0e2c4);cursor:pointer;}
+.gcell.on:hover{transform:translateY(-2px);box-shadow:0 3px 0 var(--shadow);}
+.gcell img{max-width:82%;max-height:82%;object-fit:contain;filter:drop-shadow(0 2px 1px rgba(0,0,0,.25));}
+.gcell .lock{color:#b9a684;font-weight:800;font-size:.68em;text-align:center;line-height:1.15;}
+.gcell .lock b{display:block;font-size:1.5em;opacity:.55;font-weight:400;}
+
+/* bobblehead shelf (right, vertical: 8 ledges of 3), ledges fill the height */
+.shelf{display:flex;flex-direction:column;gap:0;flex:1 1 auto;min-height:0;}
+.row{display:grid;grid-template-columns:repeat(3,1fr);align-items:stretch;background:linear-gradient(#f6ead2,#efe0c2);
+  flex:1 1 0;min-height:0;}
+.slot{position:relative;display:flex;align-items:flex-end;justify-content:center;min-height:0;padding-bottom:2px;}
+.slot img{max-height:100%;max-width:92%;object-fit:contain;filter:drop-shadow(0 2px 1px rgba(0,0,0,.25));cursor:pointer;}
+.slot .ghost{width:22px;max-height:70%;height:30px;border:2px dashed #cdbfa3;border-radius:8px 8px 3px 3px;opacity:.7;}
+.board{flex:0 0 9px;background:linear-gradient(var(--wood),var(--wood-d));border:2px solid var(--wood-d);border-radius:3px;
+  box-shadow:0 4px 6px rgba(0,0,0,.18);margin-bottom:5px;}
+
+/* dev popup row (cog button lives in the header .seg-right as an .hbtn) */
+#devBtn{cursor:pointer;transition:transform .3s;}
+#devBtn:hover{transform:rotate(90deg);}
+.devrow{display:flex;align-items:center;justify-content:center;gap:10px;font-weight:800;margin:8px 0 14px;}
+/* dev modal tabs */
+.tabs{display:flex;flex-wrap:wrap;gap:2px 4px;margin-bottom:14px;border-bottom:2px solid #efe4d3;}
+.tab{font-family:var(--head);font-weight:800;font-size:.82em;cursor:pointer;color:#8a7d93;background:none;border:none;
+  padding:8px 8px 9px;border-bottom:3px solid transparent;margin-bottom:-2px;}
+/* dev/settings window: fixed size so it never resizes between tabs; body scrolls, nav + Close pinned */
+.devsheet{display:flex;flex-direction:column;max-width:430px;width:100%;height:min(74vh,580px);
+  padding:18px 18px 16px;text-align:left;}
+.devsheet .tabs{flex:0 0 auto;flex-wrap:nowrap;justify-content:stretch;gap:2px;margin-bottom:0;}
+.devsheet .tab{flex:1 1 0;text-align:center;padding:8px 3px 9px;font-size:.76em;white-space:nowrap;}
+.dev-body{flex:1 1 auto;min-height:0;overflow-y:auto;padding:14px 2px 2px;}
+.dev-body .tabpane{text-align:left;}
+.devsheet > .row-btn{flex:0 0 auto;margin-top:12px;padding-top:12px;border-top:2px solid #efe4d3;justify-content:center;}
+.tab.on{color:var(--ink);border-bottom-color:var(--purple);}
+.tabpane{text-align:left;}
+/* defect punishment controls */
+.dp-intro{font-weight:800;text-align:center;margin:2px 0 14px;}
+.dprow{display:flex;align-items:center;gap:10px;font-weight:800;margin:0 0 12px;}
+.dprow span{flex:1;}
+.dprow input[type=number]{width:78px;font-family:var(--disp);font-size:1.1em;text-align:center;padding:6px;
+  border:3px solid var(--stroke);border-radius:10px;}
+.dprow input:disabled{opacity:.4;}
+.dpcheck{display:flex;align-items:center;gap:9px;font-weight:800;cursor:pointer;margin:2px 0 4px;}
+.dpcheck input{width:20px;height:20px;accent-color:var(--purple);cursor:pointer;}
+.dp-note{color:#8a7d93;font-weight:700;font-size:.82em;text-align:center;margin:14px 0 2px;line-height:1.3;}
+.devrow input[type=range]{flex:1;max-width:170px;}
+.val{font-family:var(--disp);font-weight:700;color:var(--purple);}
+.btn{font-family:var(--head);font-weight:800;font-size:.92em;cursor:pointer;color:#fff;background:var(--blue);
+  border:3px solid var(--stroke);border-radius:12px;padding:8px 14px;box-shadow:0 4px 0 var(--shadow);}
+.btn:active{transform:translateY(4px);box-shadow:0 0 0 var(--shadow);}
+.btn.green{background:var(--green);}.btn.purple{background:var(--purple);}.btn.red{background:var(--red);}.btn.ghost{background:#fff3dc;color:var(--ink);}
+.btn:disabled{opacity:.5;cursor:not-allowed;}

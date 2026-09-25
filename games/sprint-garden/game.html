@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sprint Garden</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Fredoka:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="src/base.css">
+<link rel="stylesheet" href="src/room.css">
+<link rel="stylesheet" href="src/panels.css">
+<link rel="stylesheet" href="src/modals.css">
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hbar">
+    <div class="seg seg-bits">
+      <span class="coin" aria-hidden="true"></span>
+      <div class="seg-body">
+        <div class="seg-lbl">Bits</div>
+        <div class="seg-val" id="bits">0</div>
+      </div>
+      <div class="seg-sub">+<span id="rate">0</span>/day</div>
+    </div>
+
+    <div class="seg seg-lv">
+      <div class="seg-lvwrap">
+        <div class="lvline"><span class="lv2">🌱 Next flower</span><span class="lvname" id="flnote"></span></div>
+        <div class="bar"><i id="flbar"></i></div>
+      </div>
+    </div>
+
+    <div class="seg seg-right">
+      <span class="chip">🌼 <b id="species">0/24</b></span>
+      <span class="chip" id="pests">0 pest events</span>
+      <button class="hbtn" id="helpBtn" title="How to play">?</button>
+      <a class="hbtn" href="index.html" title="Home">⌂</a>
+      <button class="hbtn" id="devBtn" title="Dev tools">⚙</button>
+    </div>
+  </header>
+
+  <div class="stage">
+    <div class="room" id="room">
+      <div class="bloom-banner" id="bloomBanner" hidden>🌸 Full Bloom! Every species planted, all at level 3.</div>
+      <div class="propbar">
+        <button class="propbtn cal" id="calProp">📅 Log a sprint</button>
+        <button class="propbtn tend" id="tendProp" title="">🌳 <span id="lblTend">Tend the garden</span></button>
+        <button class="propbtn alarm" id="alarmProp">🐛 Report a defect</button>
+      </div>
+      <div class="bed" id="bed"></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Log a sprint -->
+<div class="modal" id="logModal"><div class="sheet">
+  <h2>📅 Log a sprint</h2>
+  <p>Drop in the sprint points the team earned this retro. Points plant flowers and grow whatever's already in the ground.</p>
+  <div class="numrow"><button class="btn ghost" id="ptMinus">-</button>
+    <input type="number" id="ptInput" value="20" min="1" max="999">
+    <button class="btn ghost" id="ptPlus">+</button></div>
+  <p class="lbl" id="logNeed"></p>
+  <div class="row-btn"><button class="btn" id="logCancel">Cancel</button>
+    <button class="btn green" id="logGo">Log it</button></div>
+</div></div>
+
+<!-- Defect / pest event -->
+<div class="modal" id="defectModal"><div class="sheet">
+  <h2>🐛 Report a defect</h2>
+  <p>Something shipped broken. A pest gets into the garden.</p>
+  <p class="lbl" id="defectLose"></p>
+  <div class="row-btn"><button class="btn" id="defectCancel">False alarm</button>
+    <button class="btn red" id="defectGo">Yep, we broke it</button></div>
+</div></div>
+
+<!-- plant reveal card -->
+<div class="modal" id="cardModal"><div class="cardbox" id="cardBox"></div></div>
+<div class="modal" id="trophyModal"><div class="sheet" id="trophyBox"></div></div>
+
+<!-- Full Bloom recap -->
+<div class="modal" id="recapModal"><div class="sheet">
+  <h2>Full Bloom!</h2>
+  <p class="lbl">Season complete. Saved as a fresh start below.</p>
+  <div class="season-card" id="recapBody"></div>
+  <div class="row-btn"><button class="btn green" id="recapNext">Start next season</button></div>
+</div></div>
+
+<!-- how to play -->
+<div class="modal" id="helpModal"><div class="sheet">
+  <h2>How to play</h2>
+  <div class="howto">
+    <p><b>📅 Log a sprint.</b> Every sprint review, click Log a sprint and enter the team's points. Enough points auto-plants the next flower, in order, no picking. Logging also grows every plant already in the ground by one level, up to level 3.</p>
+    <p><b>🌳 Tend the garden.</b> Bits pile up automatically from whatever's already planted. Click Tend the garden whenever there's enough banked to auto-plant the next tree, bigger and crazier than any flower.</p>
+    <p><b>🐛 Own your defects.</b> Ship something broken? Report it. Every still-growing plant skips its next level-up, a pest event, not a currency loss.</p>
+    <p><b>🌸 Full Bloom.</b> Plant and max out all 16 flowers and 8 trees to complete the season.</p>
+  </div>
+  <div class="row-btn"><button class="btn" id="helpClose">Got it</button></div>
+</div></div>
+
+<!-- dev tools -->
+<div class="modal" id="devModal"><div class="sheet devsheet">
+  <div class="dev-body">
+    <p class="dp-intro">Set your team's cadence and season length.</p>
+    <label class="dprow"><span>Sprint length (weeks)</span> <input type="number" id="sprintWeeks" min="1" max="8" step="1" value="2"></label>
+    <label class="dprow"><span>Avg points per sprint</span> <input type="number" id="avgPoints" min="1" max="999" value="30"></label>
+    <label class="dprow"><span>Season length (sprints)</span> <input type="number" id="seasonSprints" min="2" max="52" step="1" value="6"></label>
+    <p class="dp-note" id="setupNote"></p>
+    <div class="row-btn"><button class="btn ghost" id="setupReset">Reset to defaults</button></div>
+    <div class="row-btn">
+      <button class="btn ghost" id="addBits">+500 bits</button>
+      <button class="btn ghost" id="addPoints">+1 flower threshold</button>
+      <button class="btn ghost" id="wipe">Reset save</button>
+    </div>
+  </div>
+  <div class="row-btn"><button class="btn" id="devClose">Close</button></div>
+</div></div>
+
+<script src="src/data.js"></script>
+<script src="src/state.js"></script>
+<script src="src/economy.js"></script>
+<script src="src/garden.js"></script>
+<script src="src/scene.js"></script>
+<script src="src/modals.js"></script>
+<script src="src/boot.js"></script>
+</body>
+</html>

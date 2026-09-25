@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Office Aquarium</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{ --ink:#3a2b45;--card:#fffdf6;--stroke:#1c1524;--shadow:rgba(0,0,0,.4);
+    --disp:"Fredoka",system-ui,sans-serif;--head:"Baloo 2",system-ui,sans-serif; }
+  *{box-sizing:border-box;}
+  html,body{margin:0;height:100%;font-family:var(--head);color:#fff;}
+  body{height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;
+    background:linear-gradient(160deg,#0f3a52,#1a6a8f 55%,#8fd0f5);}
+  h1{font-family:var(--disp);font-size:clamp(1.8rem,5vw,3rem);margin:0;text-shadow:0 3px 6px rgba(0,0,0,.4);}
+  p{max-width:520px;text-align:center;font-weight:600;margin:0;opacity:.92;}
+  .play{font-family:var(--disp);font-weight:700;font-size:1.4rem;text-transform:uppercase;color:#fff;
+    background:linear-gradient(#48d47b,#2fae5f);border:4px solid var(--stroke);border-radius:20px;
+    padding:14px 48px;box-shadow:0 7px 0 var(--shadow);cursor:pointer;text-decoration:none;}
+  .play:active{transform:translateY(6px);box-shadow:0 1px 0 var(--shadow);}
+</style>
+</head>
+<body>
+  <h1>🐠 Office Aquarium</h1>
+  <p>Sprint points grow the tank, one weird fish at a time, up to 24. No shop, no picking. Log a sprint, feed the tank, watch what shows up.</p>
+  <a class="play" href="game.html">Play</a>
+</body>
+</html>

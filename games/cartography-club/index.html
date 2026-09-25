@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cartography Club</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#3a2b45;--card:#fffdf6;--stroke:#1c1524;--shadow:rgba(0,0,0,.4);
+    --disp:"Fredoka",system-ui,sans-serif;--head:"Baloo 2",system-ui,sans-serif;}
+  *{box-sizing:border-box;}
+  html,body{margin:0;height:100%;font-family:var(--head);color:#fff;}
+  body{height:100vh;overflow:hidden;background:#3b2a63 radial-gradient(60% 60% at 50% 30%,#6a45c0,#3b2a63 70%);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;text-align:center;}
+  h1{font-family:var(--disp);font-size:clamp(2rem,6vw,3.2rem);margin:0;text-shadow:0 4px 10px rgba(0,0,0,.5);}
+  p{max-width:520px;padding:0 20px;font-weight:600;color:#f0e6ff;}
+  .play{font-family:var(--disp);font-weight:700;font-size:1.4rem;text-transform:uppercase;color:#fff;
+    background:linear-gradient(#9b6cff,#6a45c0);border:4px solid var(--stroke);border-radius:20px;
+    padding:14px 50px;box-shadow:0 7px 0 var(--shadow);cursor:pointer;text-decoration:none;}
+  .play:active{transform:translateY(6px);box-shadow:0 1px 0 var(--shadow);}
+</style>
+</head>
+<body>
+  <h1>🧭 Cartography Club</h1>
+  <p>Charge the Jumper Machine with sprint points, leap through 12 mythical office eras, and retrieve 24 artifacts from across time.</p>
+  <a class="play" href="game.html">Play</a>
+</body>
+</html>

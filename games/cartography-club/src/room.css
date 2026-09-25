@@ -1,0 +1,27 @@
+/* Placeholder room styling: no art assets yet, so the biome and artifacts
+   render as colored text blocks. Swap for real backgrounds/sprites later,
+   see README "Art status". */
+.wrap { max-width: 900px; margin: 0 auto; }
+.stage { display: flex; gap: 14px; min-height: 0; flex: 1 1 auto; }
+.side { width: 220px; flex: 0 0 220px; }
+.room { flex: 1 1 auto; min-height: 320px; border-radius: 18px; border: 3px solid var(--stroke);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center; padding: 24px; gap: 10px; position: relative; overflow: hidden;
+  background: linear-gradient(160deg, #6a45c0, #9b6cff 60%, #b98cff);
+  color: #fff; transition: background .5s ease; }
+.room .biome-name { font-family: var(--disp); font-size: 1.8rem; text-shadow: 0 2px 4px rgba(0,0,0,.35); }
+.room .biome-flavor { font-weight: 700; opacity: .92; max-width: 480px; }
+.room .biome-count { font-weight: 800; font-size: .8rem; letter-spacing: .05em; text-transform: uppercase; opacity: .85; }
+.propbar { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; padding: 10px 0 0; }
+
+.shelf { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+.aslot { min-height: 62px; border-radius: 10px; border: 2px dashed #cdbfa3; background: #f6ead2;
+  display: flex; align-items: center; justify-content: center; text-align: center;
+  font-size: .62rem; font-weight: 700; padding: 4px; color: #8a7d93; }
+.aslot.owned { border-style: solid; border-color: var(--stroke); background: #fff3dc; color: var(--ink); cursor: pointer; }
+
+.bossbtn { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%); z-index: 70;
+  font-family: var(--disp); font-weight: 700; font-size: 1rem; color: #fff;
+  background: linear-gradient(#ff8a52, #e05a2b); border: 3px solid var(--stroke); border-radius: 16px;
+  padding: 12px 24px; box-shadow: 0 5px 0 var(--shadow); cursor: pointer; }
+.win-title { font-family: var(--disp); font-weight: 700; font-size: 1.4rem; color: var(--green); margin: 10px 0 4px; }

@@ -1,0 +1,28 @@
+/* Office Aquarium: the tank scene and its action toolbar. Placeholder
+   visuals: no art assets exist yet, so fish render as colored circles with a
+   name label rather than sprites. Swap in real sprites by giving .fbody a
+   background-image instead of background-color, per the README. */
+
+.tankwrap { background: var(--card); border: 3px solid var(--stroke); border-radius: 18px;
+  box-shadow: 0 6px 0 var(--shadow); padding: 16px; display: flex; flex-direction: column; gap: 14px; flex: 1 1 auto; min-height: 0; }
+
+.toolbar { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+
+.tank { background: linear-gradient(180deg, #bfe6ff, #8fd0f5); border: 3px solid var(--stroke); border-radius: 14px;
+  display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; padding: 12px; flex: 1 1 auto; min-height: 0; overflow: auto; }
+@media (max-width: 720px) { .tank { grid-template-columns: repeat(4, 1fr); } }
+
+.fcell { position: relative; aspect-ratio: 1; border-radius: 50%; border: 2px dashed rgba(255,255,255,.6);
+  display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.fcell.on { border: 2px solid var(--stroke); cursor: pointer; box-shadow: 0 2px 0 rgba(0,0,0,.2); }
+.fcell .ghost { color: rgba(255,255,255,.85); font-weight: 800; font-size: 1.3em; }
+.fcell .fbody { position: absolute; inset: 0; border-radius: 50%; }
+.fcell .flabel { position: absolute; bottom: 2px; left: 2px; right: 2px; font-size: .55em; font-weight: 800;
+  color: #fff; text-shadow: 0 1px 2px rgba(0,0,0,.6); text-align: center; line-height: 1.1;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.fcell .hatbadge { position: absolute; top: -2px; right: -2px; font-size: 1em; z-index: 2; }
+
+.card-fish { width: 64%; aspect-ratio: 1; border-radius: 50%; margin: 8px auto; border: 3px solid var(--stroke); }
+.hat-note { color: var(--purple); font-weight: 700; }
+
+.hudrow { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-bottom: 4px; }

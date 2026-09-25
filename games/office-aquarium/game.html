@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Office Aquarium</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Fredoka:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="src/base.css">
+<link rel="stylesheet" href="src/panels.css">
+<link rel="stylesheet" href="src/modals.css">
+<link rel="stylesheet" href="src/room.css">
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hbar">
+    <div class="seg seg-days">
+      <span class="seg-ic">🐠</span>
+      <div class="seg-body">
+        <div class="seg-lbl">Clean streak</div>
+        <div class="seg-val" id="streak">—</div>
+      </div>
+      <div class="seg-sub" id="rec">best 0d · 0 defects</div>
+    </div>
+
+    <div class="seg seg-lv">
+      <span class="seg-ic">🐟</span>
+      <div class="seg-lvwrap">
+        <div class="lvline"><span class="lv2" id="colsub">0 / 24 fish</span><span class="lvname" id="ptnote"></span></div>
+        <div class="bar"><i id="ptbar"></i></div>
+      </div>
+    </div>
+
+    <div class="seg seg-bits">
+      <span class="coin" aria-hidden="true"></span>
+      <div class="seg-body">
+        <div class="seg-lbl">Food</div>
+        <div class="seg-val" id="bits">0</div>
+      </div>
+      <div class="seg-sub">+<span id="rate">0</span>/day</div>
+    </div>
+
+    <div class="seg seg-right">
+      <span class="chip">🐠 <b id="col">0/24</b></span>
+      <button class="hbtn" id="helpBtn" title="How to play">?</button>
+      <a class="hbtn" href="index.html" title="Home">⌂</a>
+      <button class="hbtn" id="settingsBtn" title="Settings">⚙</button>
+    </div>
+  </header>
+
+  <div class="tankwrap">
+    <div class="toolbar">
+      <button class="btn green" id="logBtn">📅 Log a sprint</button>
+      <button class="btn purple" id="feedBtn">🍽 Feed the Tank</button>
+      <button class="btn red" id="defectBtn">🚨 Report a defect</button>
+    </div>
+    <div class="tank" id="tank"></div>
+  </div>
+
+</div>
+
+<!-- log a sprint -->
+<div class="modal" id="logModal"><div class="sheet">
+  <h2>📅 Log a sprint</h2>
+  <p>Drop in the sprint points the team earned this retro.</p>
+  <div class="numrow"><button class="btn ghost" id="ptMinus">-</button>
+    <input type="number" id="ptInput" value="20" min="1" max="999">
+    <button class="btn ghost" id="ptPlus">+</button></div>
+  <p class="lbl" id="logNeed"></p>
+  <div class="row-btn"><button class="btn" id="logCancel">Cancel</button>
+    <button class="btn green" id="logGo">Log it</button></div>
+</div></div>
+
+<!-- feed the tank -->
+<div class="modal" id="feedModal"><div class="sheet" id="feedBody"></div></div>
+
+<!-- report a defect -->
+<div class="modal" id="defectModal"><div class="sheet">
+  <h2>🚨 Report a defect</h2>
+  <p>Something shipped broken. This resets the clean streak. Fish and hats stay safe.</p>
+  <p class="lbl" id="defectLose"></p>
+  <div class="row-btn"><button class="btn" id="defectCancel">False alarm</button>
+    <button class="btn red" id="defectGo">Yep, we broke it</button></div>
+</div></div>
+
+<!-- fish card -->
+<div class="modal" id="cardModal"><div class="cardbox" id="cardBox"></div></div>
+
+<!-- reef complete recap -->
+<div class="modal" id="recapModal"><div class="sheet">
+  <h2>The reef is complete</h2>
+  <p class="lbl">All 24 fish are home.</p>
+  <div class="season-card" id="recapBody"></div>
+  <div class="row-btn"><button class="btn green" id="recapNext">Start next season</button></div>
+</div></div>
+
+<!-- how to play -->
+<div class="modal" id="helpModal"><div class="sheet">
+  <h2>How to play</h2>
+  <div class="howto">
+    <p><b>📅 Log a sprint.</b> Every sprint review, enter the team's sprint points. Points reveal the next fish, in order, up to 24.</p>
+    <p><b>🍽 Feed the tank.</b> Food piles up automatically. Feeding reveals a fun fact about a random fish already in the tank, and every fifth feeding also drops a hat onto a random fish.</p>
+    <p><b>🚨 Own your defects.</b> Something shipped broken? Report it. You lose a chunk of banked food and the clean streak resets. Fish and hats are never lost.</p>
+    <p>No shop, no picking. One button, one surprise.</p>
+  </div>
+  <div class="row-btn"><button class="btn" id="helpClose">Got it</button></div>
+</div></div>
+
+<!-- settings -->
+<div class="modal" id="settingsModal"><div class="sheet devsheet">
+  <div class="dev-body">
+    <p class="dp-intro">Set your team's cadence. All 24 fish land around the last sprint.</p>
+    <label class="dprow"><span>Sprint length (weeks)</span> <input type="number" id="sprintWeeks" min="1" max="8" step="1" value="2"></label>
+    <label class="dprow"><span>Avg points per sprint</span> <input type="number" id="avgPoints" min="1" max="999" value="30"></label>
+    <label class="dprow"><span>Season length (sprints)</span> <input type="number" id="seasonSprints" min="2" max="52" step="1" value="6"></label>
+    <p class="dp-note" id="setupNote"></p>
+    <div class="row-btn"><button class="btn ghost" id="setupReset">Reset to defaults</button></div>
+
+    <p class="dp-intro" style="margin-top:16px;">When a defect is reported, take away:</p>
+    <label class="dprow"><span>Food removed</span> <input type="number" id="defBits" min="0" max="100" value="30"><b>%</b></label>
+    <p class="dp-note" id="defNote"></p>
+  </div>
+  <div class="row-btn"><button class="btn" id="settingsClose">Close</button></div>
+</div></div>
+
+<!-- Game logic split by concern; plain scripts sharing one global scope. Load boot.js last. -->
+<script src="src/data.js"></script>
+<script src="src/state.js"></script>
+<script src="src/economy.js"></script>
+<script src="src/fishtank.js"></script>
+<script src="src/scene.js"></script>
+<script src="src/modals.js"></script>
+<script src="src/boot.js"></script>
+</body>
+</html>
